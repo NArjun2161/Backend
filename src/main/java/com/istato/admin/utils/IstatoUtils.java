@@ -1,19 +1,43 @@
 package com.istato.admin.utils;
 
 import com.istato.admin.baseclasses.*;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.*;
 
-import static com.istato.admin.baseclasses.Constants.*;
-
 
 
 @Slf4j
 public class IstatoUtils {
+    private static final Logger logger = LoggerFactory.getLogger(IstatoUtils.class);
+
+    public static String generateRoleId(String roleName, String boundValue) {
+        logger.info("Inside generateRoleId");
+        if (roleName == null || roleName.length() <2)
+        {
+            throw new IllegalArgumentException("RollName must have at least three character");
+
+        }
+        //Extract uppercase initials from each word
+        String[] words=roleName.split(" ");
+        StringBuilder prefix=new StringBuilder();
+        for (String word :words){
+            if (!word.isEmpty()){
+                prefix.append(Character.toUpperCase(word.charAt(0)));
+            }
+        }
+        //Gereate a random number
+        Random random = new Random();
+        int rValue=random.nextInt(Integer.parseInt(boundValue));
+        String randomNumbericPart=String.valueOf(rValue);
+        // Logic to generate a unique ID based on the name and some random numeric valueString
+        return prefix.toString() + randomNumbericPart;
+
+    }
+
+
 
     public static BaseResponse getBaseResponse(CustomHttpStatus httpStatus, Collection<Errors> errors) {
 

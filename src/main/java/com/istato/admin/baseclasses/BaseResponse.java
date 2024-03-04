@@ -24,6 +24,9 @@ public class BaseResponse {
     private Collection<Errors> errors;
 
 
+
+
+
     public static Builder builder() {
         return new Builder();
     }
@@ -69,6 +72,8 @@ public class BaseResponse {
         result = 31 * result + (errors != null ? errors.hashCode() : 0);
         return result;
     }
+
+
 
     public static class Builder {
         private BaseResponse baseResponse = new BaseResponse();
