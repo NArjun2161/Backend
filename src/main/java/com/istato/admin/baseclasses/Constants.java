@@ -9,6 +9,8 @@ public class Constants {
 
     public static final String CONTROLLER_STARTED = "Controller started";
     public static final String CONTROLLER_FAILED = "Controller Failed";
+    public static final String API_NAME = "apiName";
+    public static final String IS_ACTIVE ="isActive" ;
 
     private Constants() {
 

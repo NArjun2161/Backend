@@ -19,14 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/role")
 @Slf4j
 public class RoleController {
-    private static final Logger logger = LoggerFactory.getLogger(RoleController.class);
     @Autowired
     private RoleService roleService;
 
     @PostMapping(value = EndPointReffer.CREATE_ROLE_CONTROLLER)
     public BaseResponse createRole(@RequestBody Role role) {
-        logger.info(EndPointReffer.CREATE_ROLE_CONTROLLER + Constants.CONTROLLER_STARTED);
-        BaseResponse baseResponse = roleService.createRole(role);
+        log.info(EndPointReffer.CREATE_ROLE_CONTROLLER + Constants.CONTROLLER_STARTED);
         return roleService.createRole(role);
     }
 }
