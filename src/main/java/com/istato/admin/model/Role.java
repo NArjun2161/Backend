@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @Document(value = "role")
 public class Role {
-    @Id
+    @JsonProperty("roleId")
     private String roleId;
     @JsonProperty("roleName")
     private String roleName;

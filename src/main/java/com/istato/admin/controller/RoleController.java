@@ -24,19 +24,9 @@ public class RoleController {
     private RoleService roleService;
 
     @PostMapping(value = EndPointReffer.CREATE_ROLE_CONTROLLER)
-    public BaseResponse createRole(@RequestBody Role role){
+    public BaseResponse createRole(@RequestBody Role role) {
         logger.info(EndPointReffer.CREATE_ROLE_CONTROLLER + Constants.CONTROLLER_STARTED);
         BaseResponse baseResponse = roleService.createRole(role);
-        if (baseResponse.isSuccess()){
-            logger.info(EndPointReffer.CREATE_ROLE_CONTROLLER + Constants.CONTROLLER_STARTED);
-            baseResponse.setStatusCode(HttpStatus.CREATED.value());
-            return baseResponse;
-        }
-        else {
-            logger.error(EndPointReffer.CREATE_ROLE_CONTROLLER + Constants.CONTROLLER_FAILED);
-            baseResponse.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-            return baseResponse;
-        }
-
+        return roleService.createRole(role);
     }
 }
