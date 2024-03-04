@@ -1,15 +1,15 @@
 package com.istato.admin.utils;
 
 import com.istato.admin.baseclasses.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Random;
 
+
+@Slf4j
 public class IstatoUtils {
     private static final Logger logger = LoggerFactory.getLogger(IstatoUtils.class);
 
@@ -61,16 +61,39 @@ public class IstatoUtils {
                 .build();
     }
 
-    public static Collection<Errors> getNoContentErrorList() {
-        Collection<Errors> errors = new ArrayList<>();
-        errors.add(Errors.builder()
-                .message(ErrorCode.NO_DATA_FOUND)
-                .errorCode(String.valueOf(Errors.ERROR_TYPE.DATABASE.toCode()))
-                .errorType(Errors.ERROR_TYPE.DATABASE.toValue())
-                .level(Errors.SEVERITY.LOW.name())
-                .build());
-        return errors;
+    public static String encryptString(String data, String key, String iv) throws Exception {
+        log.info("Inside encryptString");
+        try {
+            byte[] byteKey = key.getBytes();
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+            SecretKeySpec secretKeySpec = new SecretKeySpec(byteKey, ALGORITHM);
+            byte[] byteIv = iv.getBytes();
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(byteIv);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
+            byte[] encryptedBytes = cipher.doFinal(data.getBytes());
+            return Base64.getEncoder().encodeToString(encryptedBytes);
+        } catch (Exception e) {
+            log.error("Exception occurred while encrypting data {} is {}", data, e.getMessage());
+            throw new Exception(e);
+        }
+
     }
 
-
+    public static String decryptString(String encryptedData, String key, String iv) throws Exception {
+        log.info("Inside decryptString");
+        try {
+            byte[] encryptedBytes = Base64.getDecoder().decode(encryptedData);
+            byte[] byteKey = key.getBytes();
+            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
+            SecretKeySpec secretKeySpec = new SecretKeySpec(byteKey, ALGORITHM);
+            byte[] byteIv = iv.getBytes();
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(byteIv);
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, ivParameterSpec);
+            byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+            return new String(decryptedBytes);
+        } catch (Exception e) {
+            log.error("Exception occurred while decrypting encryptedData {} is {}", encryptedData, e.getMessage());
+            throw new Exception(e);
+        }
+    }
 }
