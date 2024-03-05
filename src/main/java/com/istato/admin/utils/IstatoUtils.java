@@ -65,6 +65,11 @@ public class IstatoUtils {
     public static String encryptString(String data, String key, String iv) throws Exception {
         log.info("Inside encryptString");
         try {
+            if (data == null) {
+                log.warn("Attempting to encrypt null data. Returning null.");
+                return null;
+            }
+
             byte[] byteKey = key.getBytes();
             Cipher cipher = Cipher.getInstance(TRANSFORMATION);
             SecretKeySpec secretKeySpec = new SecretKeySpec(byteKey, ALGORITHM);
@@ -77,8 +82,8 @@ public class IstatoUtils {
             log.error("Exception occurred while encrypting data {} is {}", data, e.getMessage());
             throw new Exception(e);
         }
-
     }
+
 
     public static String decryptString(String encryptedData, String key, String iv) throws Exception {
         log.info("Inside decryptString");
