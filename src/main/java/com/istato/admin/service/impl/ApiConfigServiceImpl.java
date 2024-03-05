@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class ApiConfigServiceImpl implements ApiConfigService {
@@ -28,5 +30,27 @@ public class ApiConfigServiceImpl implements ApiConfigService {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    @Override
+    public List<ApiConfig> getAllApiConfig(Boolean isActive) {
+        log.info("Inside ApiConfigServiceImpl.getAllApiConfig");
+        try{
+            return apiConfigRepo.getAllApiConfig(isActive);
+        }catch (Exception e){
+            log.error("Exception occurred while fetching api config object {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+    }
+    @Override
+    public ApiConfig getApiConfig(String apiName) {
+        log.info("Inside ApiConfigServiceImpl.getApiConfig");
+        try{
+            return apiConfigRepo.getApiConfig(apiName);
+        }catch (Exception e){
+            log.error("Exception occurred while fetching api config object {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
     }
 }
