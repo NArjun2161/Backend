@@ -7,9 +7,11 @@ import com.istato.admin.baseclasses.Errors;
 import com.istato.admin.controller.ExecutiveContoller;
 import com.istato.admin.model.ApiConfig;
 import com.istato.admin.model.Executive;
+import com.istato.admin.model.ExecutiveApplication;
 import com.istato.admin.repository.ApiConfigRepo;
 import com.istato.admin.repository.ExecutiveRepository;
 import com.istato.admin.repository.RoleRepository;
+import com.istato.admin.service.ExecutiveApplicationService;
 import com.istato.admin.service.ExecutiveService;
 import com.istato.admin.utils.IstatoUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -33,11 +35,13 @@ public class ExecutiveServiceImpl implements ExecutiveService {
 
     @Autowired
     ApiConfigRepo apiConfigRepo;
+    @Autowired
+    ExecutiveApplicationService executiveApplicationService;
 
     @Override
     public BaseResponse createExecutive(Executive executive) {
         BaseResponse baseResponse = null;
-
+        ExecutiveApplication executiveApplication = new ExecutiveApplication();
         try {
             if (checkIfRoleExists(executive.getRole())) {
                 // Additional validation or business logic if needed
@@ -46,10 +50,13 @@ public class ExecutiveServiceImpl implements ExecutiveService {
                 String formattedIstNumber = String.format("%04d", randomIstNumber);
                 String executiveId = "IST-" + formattedIstNumber;
                 executive.setExecutiveId(executiveId);
+                executiveApplication.setExecutiveId(executiveId);
                 executive.setUsername(IstatoUtils.encryptString(executive.getUsername(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                 executive.setPassword(IstatoUtils.encryptString(executive.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                 executive.getPersonalDetails().setPanNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getPanNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                 executive.getPersonalDetails().setAadharNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getAadharNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
+                executiveApplication.setExecutive(executive);
+                executiveApplicationService.saveExecutiveApplication(executiveApplication);
                 executiveRepository.save(executive);
 
                 baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, "Executive created successfully.");

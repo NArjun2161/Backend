@@ -9,6 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 public class PersonalDetails {
+
     @JsonProperty("sName")
     private String name;
 
@@ -33,9 +34,4 @@ public class PersonalDetails {
     @JsonProperty("sAadharNumber")
     private String aadharNumber;
 
-    @JsonProperty("bIsIntern")
-    private boolean isIntern;
-
-    @JsonProperty("bIsActive")
-    private boolean isActive;
 }
