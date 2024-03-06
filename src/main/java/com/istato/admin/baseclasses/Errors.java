@@ -187,12 +187,15 @@ public class Errors {
 
     public enum ERROR_TYPE {
 
-        SYSTEM("SYSTEM", 1000), USER("USER", 2000), DATABASE("DATABASE", 3000),
+        SYSTEM("SYSTEM", 1000),
+        USER("USER", 2000),
+        DATABASE("DATABASE", 3000),
 
         NETWORK("NETWORK ERROR", 1001),
         AGE_EXCEPTION("Agre is below required ", 20987),
 
-        ASSET_COST_ERROR("ASSET_COST_ERROR", 4000), VALIDATION("VALIDATION", 4001);
+        ASSET_COST_ERROR("ASSET_COST_ERROR", 4000),
+        VALIDATION("VALIDATION", 4001);
 
         private int code;
         private String value;
