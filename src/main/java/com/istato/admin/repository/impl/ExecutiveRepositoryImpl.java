@@ -18,6 +18,7 @@ public class ExecutiveRepositoryImpl implements ExecutiveRepository {
     static Logger logger= LoggerFactory.getLogger(ExecutiveRepositoryImpl.class);
     @Autowired
     private MongoTemplate mongoTemplate;
+
     @Override
     public BaseResponse save(Executive executive) {
             BaseResponse baseResponse = null;

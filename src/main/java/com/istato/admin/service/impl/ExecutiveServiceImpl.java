@@ -9,6 +9,7 @@ import com.istato.admin.model.ApiConfig;
 import com.istato.admin.model.Executive;
 import com.istato.admin.repository.ApiConfigRepo;
 import com.istato.admin.repository.ExecutiveRepository;
+import com.istato.admin.repository.RoleRepository;
 import com.istato.admin.service.ExecutiveService;
 import com.istato.admin.utils.IstatoUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Random;
 
 @Service
 @Slf4j
@@ -27,25 +29,43 @@ public class ExecutiveServiceImpl implements ExecutiveService {
     private ExecutiveRepository executiveRepository;
 
     @Autowired
-    ApiConfigRepo apiConfigRepo;
+    private RoleRepository roleRepository;
 
+    @Autowired
+    ApiConfigRepo apiConfigRepo;
 
     @Override
     public BaseResponse createExecutive(Executive executive) {
         BaseResponse baseResponse = null;
-        try {
-            // Additional v alidation or business logic if needed
-            ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_EXECUTIVE_CONTROLLER);
-            log.info("Decrypted data {}",IstatoUtils.decryptString("jHZCiRRMZlGu1/xKh5P4mA==",apiConfig.getEncryptionKey(),apiConfig.getIvKey()));
-            // Save the executive to the database
-            executive.setUsername(IstatoUtils.encryptString(executive.getUsername(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-            executive.setPassword(IstatoUtils.encryptString(executive.getPassword(),apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-            executive.getPersonalDetails().setPanNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getPanNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-            executive.getPersonalDetails().setAadharNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getAadharNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-            executiveRepository.save(executive);
 
-            baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, "Executive created successfully.");
+        try {
+            if (checkIfRoleExists(executive.getRole())) {
+                // Additional validation or business logic if needed
+                ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_EXECUTIVE_CONTROLLER);
+                int randomIstNumber = 8900 + new Random().nextInt(100);
+                String formattedIstNumber = String.format("%04d", randomIstNumber);
+                String executiveId = "IST-" + formattedIstNumber;
+                executive.setExecutiveId(executiveId);
+                executive.setUsername(IstatoUtils.encryptString(executive.getUsername(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
+                executive.setPassword(IstatoUtils.encryptString(executive.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
+                executive.getPersonalDetails().setPanNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getPanNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
+                executive.getPersonalDetails().setAadharNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getAadharNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
+                executiveRepository.save(executive);
+
+                baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, "Executive created successfully.");
+            } else {
+                // Role doesn't exist, handle accordingly
+                Collection<Errors> errors = new ArrayList<>();
+                errors.add(Errors.builder()
+                        .message("Role not found")
+                        .errorCode(String.valueOf(Errors.ERROR_TYPE.VALIDATION.toCode()))
+                        .errorType(Errors.ERROR_TYPE.VALIDATION.toValue())
+                        .level(Errors.SEVERITY.HIGH.name())
+                        .build());
+                baseResponse = IstatoUtils.getBaseResponse(HttpStatus.BAD_REQUEST, errors);
+            }
         } catch (Exception e) {
+            // Exception during processing
             Collection<Errors> errors = new ArrayList<>();
             errors.add(Errors.builder()
                     .message(ErrorCode.EXCEPTION)
@@ -56,5 +76,9 @@ public class ExecutiveServiceImpl implements ExecutiveService {
             baseResponse = IstatoUtils.getBaseResponse(HttpStatus.EXPECTATION_FAILED, errors);
         }
         return baseResponse;
+    }
+
+    private boolean checkIfRoleExists(String roleName) {
+        return roleRepository.existsByRoleName(roleName);
     }
 }

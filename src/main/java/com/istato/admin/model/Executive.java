@@ -2,15 +2,20 @@ package com.istato.admin.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Document(value = "executives")
 public class Executive {
+
+    @JsonProperty("executiveId")
+    private String executiveId;
     @JsonProperty("personalDetails")
     private PersonalDetails personalDetails;
 
@@ -22,7 +27,6 @@ public class Executive {
 
     @JsonProperty("Role")
     private String role;
-
     @JsonProperty("username")
     private String username;
 

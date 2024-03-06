@@ -6,4 +6,5 @@ import com.istato.admin.model.Role;
 public interface RoleRepository {
 
     BaseResponse save(Role role);
+    boolean existsByRoleName(String roleName);
 }
