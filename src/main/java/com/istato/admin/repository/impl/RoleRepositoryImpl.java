@@ -9,8 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 @Repository
@@ -28,5 +32,18 @@ public class RoleRepositoryImpl implements RoleRepository {
             logger.error("Exception occurd while creating role{}" , e.getMessage());
         }
         return baseResponse;
+    }
+
+    @Override
+    public boolean existsByRoleName(String roleName) {
+        Query query = new Query();
+        query =query.addCriteria(Criteria.where("roleName").is(roleName));
+        List<Role> roles = mongoTemplate.find(query, Role.class);
+        for (Role role : roles) {
+            if (role.getRoleName().equals(roleName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -192,7 +192,7 @@ public class Errors {
         NETWORK("NETWORK ERROR", 1001),
         AGE_EXCEPTION("Agre is below required ", 20987),
 
-        ASSET_COST_ERROR("ASSET_COST_ERROR", 4000);
+        ASSET_COST_ERROR("ASSET_COST_ERROR", 4000), VALIDATION("VALIDATION", 4001);
 
         private int code;
         private String value;
