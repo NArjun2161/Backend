@@ -14,22 +14,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(value = "executives")
 public class Executive {
 
-    @JsonProperty("executiveId")
+    @JsonProperty("sExecutiveId")
     private String executiveId;
-    @JsonProperty("personalDetails")
+    @JsonProperty("oPersonalDetails")
     private PersonalDetails personalDetails;
 
-    @JsonProperty("financeDetails")
+    @JsonProperty("oFinanceDetails")
     private FinanceDetails financeDetails;
 
-    @JsonProperty("assetDetails")
+    @JsonProperty("oAssetDetails")
     private AssetDetails assetDetails;
 
-    @JsonProperty("Role")
+    @JsonProperty("sRole")
     private String role;
-    @JsonProperty("username")
+    @JsonProperty("sUsername")
     private String username;
 
-    @JsonProperty("password")
+    @JsonProperty("sPassword")
     private String password;
 }

@@ -9,15 +9,15 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class FinanceDetails {
-    @JsonProperty("salary")
+    @JsonProperty("dSalary")
     private double salary;
 
-    @JsonProperty("bonus")
+    @JsonProperty("dBonus")
     private double bonus;
 
-    @JsonProperty("incentive")
+    @JsonProperty("dIncentive")
     private double incentive;
 
-    @JsonProperty("isOnRole")
+    @JsonProperty("bIsOnRole")
     private boolean isOnRole;
 }

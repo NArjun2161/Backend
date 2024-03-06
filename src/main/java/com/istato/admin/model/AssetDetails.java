@@ -9,15 +9,15 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class AssetDetails {
-    @JsonProperty("assetName")
+    @JsonProperty("sAssetName")
     private String assetName;
 
-    @JsonProperty("assetID")
+    @JsonProperty("sAssetID")
     private String assetID;
 
-    @JsonProperty("assetType")
+    @JsonProperty("sAssetType")
     private String assetType;
 
-    @JsonProperty("assetValue")
+    @JsonProperty("dAssetValue")
     private double assetValue;
 }

@@ -9,33 +9,33 @@ import lombok.*;
 @Getter
 @Setter
 public class PersonalDetails {
-    @JsonProperty("name")
+    @JsonProperty("sName")
     private String name;
 
-    @JsonProperty("email")
+    @JsonProperty("sEmail")
     private String email;
 
-    @JsonProperty("contactNumber")
+    @JsonProperty("sContactNumber")
     private String contactNumber;
 
-    @JsonProperty("address")
+    @JsonProperty("sAddress")
     private String address;
 
-    @JsonProperty("dob")
+    @JsonProperty("sDob")
     private String dob;
 
-    @JsonProperty("gender")
+    @JsonProperty("sGender")
     private String gender;
 
-    @JsonProperty("panNumber")
+    @JsonProperty("sPanNumber")
     private String panNumber;
 
-    @JsonProperty("aadharNumber")
+    @JsonProperty("sAadharNumber")
     private String aadharNumber;
 
-    @JsonProperty("isIntern")
+    @JsonProperty("bIsIntern")
     private boolean isIntern;
 
-    @JsonProperty("isActive")
+    @JsonProperty("bIsActive")
     private boolean isActive;
 }
