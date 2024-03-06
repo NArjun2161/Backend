@@ -16,6 +16,25 @@ public class Executive {
 
     @JsonProperty("sExecutiveId")
     private String executiveId;
+
+    @JsonProperty("sRole")
+    private String role;
+
+    @JsonProperty("sUsername")
+    private String username;
+
+    @JsonProperty("sPassword")
+    private String password;
+
+    @JsonProperty("bIsOnRole")
+    private boolean isOnRole;
+
+    @JsonProperty("bIsIntern")
+    private boolean isIntern;
+
+    @JsonProperty("bIsActive")
+    private boolean isActive;
+
     @JsonProperty("oPersonalDetails")
     private PersonalDetails personalDetails;
 
@@ -25,11 +44,5 @@ public class Executive {
     @JsonProperty("oAssetDetails")
     private AssetDetails assetDetails;
 
-    @JsonProperty("sRole")
-    private String role;
-    @JsonProperty("sUsername")
-    private String username;
 
-    @JsonProperty("sPassword")
-    private String password;
 }

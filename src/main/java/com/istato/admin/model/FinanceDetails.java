@@ -18,6 +18,4 @@ public class FinanceDetails {
     @JsonProperty("dIncentive")
     private double incentive;
 
-    @JsonProperty("bIsOnRole")
-    private boolean isOnRole;
 }
