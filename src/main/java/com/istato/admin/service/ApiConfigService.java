@@ -9,8 +9,6 @@ public interface ApiConfigService {
     ApiConfig saveApiConfig(ApiConfig apiConfig);
    List<ApiConfig> getAllApiConfig(String isActive);
     BaseResponse getApiConfig(String apiName);
-   List<ApiConfig> getAllApiConfig(Boolean isActive);
-    ApiConfig getApiConfig(String apiName);
 
     BaseResponse updateApiConfig(ApiConfig apiConfig);
 }
