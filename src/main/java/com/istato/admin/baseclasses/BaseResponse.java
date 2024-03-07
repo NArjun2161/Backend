@@ -44,6 +44,7 @@ public class BaseResponse {
         this.payload = payload;
     }
 
+
     public Collection<Errors> getErrors() {
         return errors;
     }

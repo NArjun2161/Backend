@@ -1,6 +1,7 @@
 package com.istato.admin.utils;
 
 import com.istato.admin.baseclasses.*;
+import com.istato.admin.model.Executive;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import javax.crypto.Cipher;
@@ -101,5 +102,9 @@ public class IstatoUtils {
             log.error("Exception occurred while decrypting encryptedData {} is {}", encryptedData, e.getMessage());
             throw new Exception(e);
         }
+    }
+
+    public static BaseResponse getBaseResponse(HttpStatus httpStatus, List<Executive> executives, String s) {
+        return null;
     }
 }

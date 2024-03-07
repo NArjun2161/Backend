@@ -1,15 +1,13 @@
 package com.istato.admin.controller;
 
-import com.istato.admin.baseclasses.BaseResponse;
-import com.istato.admin.baseclasses.Constants;
-import com.istato.admin.baseclasses.EndPointReffer;
+import com.istato.admin.baseclasses.*;
 import com.istato.admin.model.Executive;
 import com.istato.admin.service.ExecutiveService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Slf4j
@@ -21,7 +19,15 @@ public class ExecutiveContoller {
         log.info(EndPointReffer.CREATE_EXECUTIVE_CONTROLLER + Constants.CONTROLLER_STARTED);
         return executiveService.createExecutive(executive);
     }
-
-
+    @GetMapping(EndPointReffer.GET_ALL_EXECUTIVES_CONTROLLER)
+    public List<BaseResponse> getAllExecutives() {
+        log.info(EndPointReffer.GET_ALL_EXECUTIVES_CONTROLLER + Constants.CONTROLLER_STARTED);
+        return executiveService.getAllExecutives();
+    }
+    @GetMapping(value = EndPointReffer.GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER +"/{isActive}")
+    public List<Executive> getAllActiveExecutives(@PathVariable String isActive) {
+        log.info(EndPointReffer.GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER + Constants.CONTROLLER_STARTED);
+        return executiveService.getAllActiveExecutives(isActive);
+    }
 
 }
