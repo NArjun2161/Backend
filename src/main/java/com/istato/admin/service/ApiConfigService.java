@@ -7,6 +7,15 @@ import java.util.List;
 
 public interface ApiConfigService {
     ApiConfig saveApiConfig(ApiConfig apiConfig);
+
+    BaseResponse deleteApiNameOrActiveStatus(String apiName, boolean isactive);
+
+    BaseResponse deleteByApiName(String apiName);
+
+    BaseResponse deleteApiAll();
+
+
+
    List<ApiConfig> getAllApiConfig(String isActive);
     BaseResponse getApiConfig(String apiName);
 
