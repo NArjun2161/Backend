@@ -2,6 +2,7 @@ package com.istato.admin.baseclasses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
@@ -22,6 +23,18 @@ public class Errors {
 
     @JsonProperty("sLevel")
     private String level;
+
+    @JsonProperty("oValidationError")
+    BindingResult validationError;
+
+    public BindingResult getError() {
+        return validationError;
+    }
+
+    public void setError(BindingResult error) {
+        this.validationError = error;
+    }
+
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
@@ -72,6 +85,7 @@ public class Errors {
         result = prime * result + ((errorType == null) ? 0 : errorType.hashCode());
         result = prime * result + ((level == null) ? 0 : level.hashCode());
         result = prime * result + ((message == null) ? 0 : message.hashCode());
+        result = prime * result + ((validationError == null) ? 0 : validationError.hashCode());
         return result;
     }
 
@@ -92,7 +106,9 @@ public class Errors {
         } else if (!level.equals(other.level)) return false;
         if (message == null) {
             if (other.message != null) return false;
-        } else if (!message.equals(other.message)) return false;
+        } if (validationError == null){
+            if (other.validationError != null) return false;
+        }else if (!message.equals(other.message)) return false;
         return true;
     }
 
@@ -164,6 +180,10 @@ public class Errors {
         public Builder level(String level) {
 
             this.error.setLevel(level);
+            return this;
+        }
+        public Builder validationError(BindingResult validationError){
+            this.error.setError(validationError);
             return this;
         }
 
