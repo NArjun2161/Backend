@@ -28,4 +28,11 @@ public class AdminController {
         log.info(EndPointReffer.CREATE_ADMIN + Constants.CONTROLLER_STARTED);
         return adminService.createAdmin(admin);
     }
+
+    @PostMapping(EndPointReffer.ADMIN_LOGIN)
+    @Valid
+    public BaseResponse adminLogin(@RequestBody Admin admin) {
+        log.info(EndPointReffer.ADMIN_LOGIN + Constants.CONTROLLER_STARTED);
+        return adminService.adminLogin(admin);
+    }
 }
