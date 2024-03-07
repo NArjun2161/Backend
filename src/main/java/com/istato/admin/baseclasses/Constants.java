@@ -11,6 +11,8 @@ public class Constants {
     public static final String CONTROLLER_FAILED = "Controller Failed";
     public static final String NULL_REQUEST = "nullRequest";
     public static final String API_NAME = "apiName";
+    public static final String IS_ACTIVE ="isActive" ;
+    public static final String NULL_REQUEST ="Null Request" ;
     public static final String ENCRYPTION_KEY = "encryptionKey";
     public static final String IV_KEY = "ivKey";
     public static final String IS_ACTIVE = "isActive";

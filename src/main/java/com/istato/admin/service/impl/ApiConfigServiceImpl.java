@@ -1,5 +1,6 @@
 package com.istato.admin.service.impl;
 
+import com.istato.admin.baseclasses.*;
 import com.istato.admin.baseclasses.BaseResponse;
 import com.istato.admin.baseclasses.ErrorCodes;
 import com.istato.admin.baseclasses.Errors;
@@ -8,10 +9,14 @@ import com.istato.admin.repository.ApiConfigRepo;
 import com.istato.admin.service.ApiConfigService;
 import com.istato.admin.utils.IstatoUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import java.util.ArrayList;
@@ -20,6 +25,7 @@ import java.util.Collection;
 @Service
 @Slf4j
 public class ApiConfigServiceImpl implements ApiConfigService {
+    private static final Logger logger = LoggerFactory.getLogger(ApiConfigServiceImpl.class);
     @Autowired
     ApiConfigRepo apiConfigRepo;
 
@@ -41,25 +47,61 @@ public class ApiConfigServiceImpl implements ApiConfigService {
     }
 
     @Override
-    public List<ApiConfig> getAllApiConfig(Boolean isActive) {
-        log.info("Inside ApiConfigServiceImpl.getAllApiConfig");
-        try{
-            return apiConfigRepo.getAllApiConfig(isActive);
-        }catch (Exception e){
+    public List<ApiConfig> getAllApiConfig(String isActive) {
+        try {
+            if (isActive.isEmpty()) {
+                return apiConfigRepo.getAllApiConfig(null);
+            } else if (isActive.equals("false") || isActive.equals("true")) {
+                Boolean isActiveBoolean = Boolean.parseBoolean(isActive);
+                return apiConfigRepo.getAllApiConfig(isActiveBoolean);
+            } else {
+                throw new RuntimeException("isActive can only be true or false ");
+            }
+        } catch (Exception e) {
             log.error("Exception occurred while fetching api config object {}", e.getMessage());
             throw new RuntimeException(e);
         }
 
     }
+
     @Override
-    public ApiConfig getApiConfig(String apiName) {
+    public BaseResponse getApiConfig(String apiName) {
+        ApiConfig apiConfig;
+        BaseResponse baseResponse = null;
         log.info("Inside ApiConfigServiceImpl.getApiConfig");
-        try{
-            return apiConfigRepo.getApiConfig(apiName);
-        }catch (Exception e){
+        try {
+            if (apiName != null) {
+                apiConfig = apiConfigRepo.getApiConfig(apiName);
+                if (apiConfig != null) {
+                    baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, apiConfig);
+                } else {
+                    Collection<Errors> errors = new ArrayList<>();
+                    errors.add(Errors.builder()
+                            .message(ErrorCode.API_CONFIG_NOT_FOUND)
+                            .errorCode(String.valueOf(Errors.ERROR_TYPE.DATABASE.toCode()))
+                            .errorType(Errors.ERROR_TYPE.DATABASE.toValue())
+                            .level(Errors.SEVERITY.HIGH.name())
+                            .build());
+                    baseResponse = IstatoUtils.getBaseResponse(HttpStatus.INTERNAL_SERVER_ERROR, errors);
+                }
+            } else {
+                logger.error(Constants.NULL_REQUEST);
+                Collection<Errors> errors = new ArrayList<>();
+                errors.add(Errors.builder()
+                        .message(ErrorCode.NO_DATA_FOUND)
+                        .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                        .errorType(Errors.ERROR_TYPE.USER.toValue())
+                        .level(Errors.SEVERITY.HIGH.name())
+                        .build());
+                logger.error(ErrorCodes.ER00P2.toFaceValue());
+                baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+            }
+
+        } catch (Exception e) {
             log.error("Exception occurred while fetching api config object {}", e.getMessage());
             throw new RuntimeException(e);
         }
+        return baseResponse;
     }
 
     @Override
