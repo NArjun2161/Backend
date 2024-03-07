@@ -40,6 +40,8 @@ public class BaseResponse {
     }
 
 
+
+
     public void setPayload(Payload<?> payload) {
         this.payload = payload;
     }

@@ -1,15 +1,21 @@
 package com.istato.admin.service.impl;
 
+import com.istato.admin.baseclasses.*;
 import com.istato.admin.model.ApiConfig;
 import com.istato.admin.repository.ApiConfigRepo;
 import com.istato.admin.service.ApiConfigService;
+import com.istato.admin.utils.IstatoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 @Service
 @Slf4j
 public class ApiConfigServiceImpl implements ApiConfigService {
+
     @Autowired
     ApiConfigRepo apiConfigRepo;
 
@@ -28,5 +34,87 @@ public class ApiConfigServiceImpl implements ApiConfigService {
             throw new RuntimeException(e);
         }
         return null;
+    }
+
+    @Override
+    public BaseResponse deleteApiNameOrActiveStatus(String apiName, boolean isactive) {
+        BaseResponse baseResponse = new BaseResponse();
+        log.info("Inside delete apiName or active status: apiName={}, isactive={}", apiName, isactive);
+        try {
+            if (apiName != null || (isactive != true || isactive != false)) {
+                log.info("ApiConfigServiceImpl.deleteApiNameOrActiveStatus: apiName={}, isactive={}", apiName, isactive);
+                baseResponse = apiConfigRepo.deleteApiNameOrActiveStatus(apiName, isactive);
+            } else {
+                log.error(Constants.NULL_REQUEST);
+                Collection<Errors> errors = new ArrayList<>();
+                errors.add(Errors.builder()
+                        .message(ErrorCode.NO_NAME_FOUND)
+                        .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                        .errorType(Errors.ERROR_TYPE.USER.toValue())
+                        .level(Errors.SEVERITY.HIGH.name())
+                        .build());
+                log.info(ErrorCodes.ER00P2.toFaceValue());
+                baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+            }
+        } catch (Exception e) {
+            log.error("Exception occurred while deleting api config object: {}", e.getMessage());
+        }
+        return baseResponse;
+    }
+
+    @Override
+    public BaseResponse deleteByApiName(String apiName) {
+        BaseResponse baseResponse = new BaseResponse();
+        log.info("inside delete by api Name only: {}", apiName);
+        try {
+            if (apiName != null) {
+                log.info("ApiConfigServiceImpl.deleteApiNAme:{} ", apiName);
+                baseResponse = apiConfigRepo.deleteByApiName(apiName);
+            } else {
+                log.error(Constants.NULL_REQUEST);
+                Collection<Errors> erroes = new ArrayList<>();
+                erroes.add(Errors.builder()
+                        .message(ErrorCode.NO_NAME_FOUND)
+                        .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                        .errorType(Errors.ERROR_TYPE.USER.toValue())
+                        .level(Errors.SEVERITY.HIGH.name())
+                        .build());
+                log.info(ErrorCodes.ER00P2.toFaceValue());
+                baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, erroes);
+            }
+        } catch (Exception e) {
+            log.info("Exception occurred delete api config object {}", e.getMessage());
+        }
+
+        return baseResponse;
+    }
+
+    @Override
+    public BaseResponse deleteApiAll() {
+        BaseResponse baseResponse = new BaseResponse();
+        log.info("Inside delete all API configurations");
+        try {
+            // Check if the condition for deleting all APIs is satisfied
+            boolean isSafeToDeleteAll = true; // Set this variable based on your condition
+
+            if (isSafeToDeleteAll) {
+                log.info("Deleting all API configurations");
+                baseResponse = apiConfigRepo.deleteAll(); // Call your repository method to delete all APIs
+            } else {
+                log.error(Constants.NULL_REQUEST);
+                Collection<Errors> errors = new ArrayList<>();
+                errors.add(Errors.builder()
+                        .message(ErrorCode.NO_NAME_FOUND)
+                        .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                        .errorType(Errors.ERROR_TYPE.USER.toValue())
+                        .level(Errors.SEVERITY.HIGH.name())
+                        .build());
+                log.info(ErrorCodes.ER00P2.toFaceValue());
+                baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+            }
+        } catch (Exception e) {
+            log.error("Exception occurred while deleting API configurations: {}", e.getMessage());
+        }
+        return baseResponse;
     }
 }
