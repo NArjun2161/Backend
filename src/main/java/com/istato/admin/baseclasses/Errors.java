@@ -11,12 +11,6 @@ public class Errors {
     private static final long serialVersionUID = 1L;
 
 
-    @JsonProperty("sId")
-    private String id;
-
-    @JsonProperty("sFieldName")
-    private String fieldName;
-
     @JsonProperty("sErrorType")
     private String errorType;
 
@@ -28,46 +22,6 @@ public class Errors {
 
     @JsonProperty("sLevel")
     private String level;
-
-    @JsonProperty("oUser")
-    private Object user;
-
-    @JsonProperty("oAccountDTO")
-    private Object accountDto;
-
-    @JsonProperty("dFieldValue")
-    private double fieldValue;
-
-    @JsonProperty("aWhatsNew")
-    private List<String> whatsNewList;
-
-    @JsonProperty("oAdditionalInformation")
-    private Object additionalInfo;
-
-    public Object getAdditionalInfo() {
-        return additionalInfo;
-    }
-
-    public void setAdditionalInfo(Object additionalInfo) {
-        this.additionalInfo = additionalInfo;
-    }
-
-    public Object getUser() {
-        return user;
-    }
-
-    public void setUser(Object user) {
-        this.user = user;
-    }
-
-    public Object getAccountDto() {
-        return accountDto;
-    }
-
-    public void setAccountDto(Object accountDto) {
-        this.accountDto = accountDto;
-    }
-
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
@@ -76,21 +30,6 @@ public class Errors {
         return new Builder();
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
-    }
 
     public String getErrorType() {
         return errorType;
@@ -124,21 +63,6 @@ public class Errors {
         this.level = level;
     }
 
-    public List<String> getWhatsNewList() {
-        return whatsNewList;
-    }
-
-    public void setWhatsNewList(List<String> whatsNewList) {
-        this.whatsNewList = whatsNewList;
-    }
-
-    public double getFieldValue() {
-        return fieldValue;
-    }
-
-    public void setFieldValue(double fieldValue) {
-        this.fieldValue = fieldValue;
-    }
 
     @Override
     public int hashCode() {
@@ -146,8 +70,6 @@ public class Errors {
         int result = 1;
         result = prime * result + ((errorCode == null) ? 0 : errorCode.hashCode());
         result = prime * result + ((errorType == null) ? 0 : errorType.hashCode());
-        result = prime * result + ((fieldName == null) ? 0 : fieldName.hashCode());
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
         result = prime * result + ((level == null) ? 0 : level.hashCode());
         result = prime * result + ((message == null) ? 0 : message.hashCode());
         return result;
@@ -165,12 +87,6 @@ public class Errors {
         if (errorType == null) {
             if (other.errorType != null) return false;
         } else if (!errorType.equals(other.errorType)) return false;
-        if (fieldName == null) {
-            if (other.fieldName != null) return false;
-        } else if (!fieldName.equals(other.fieldName)) return false;
-        if (id == null) {
-            if (other.id != null) return false;
-        } else if (!id.equals(other.id)) return false;
         if (level == null) {
             if (other.level != null) return false;
         } else if (!level.equals(other.level)) return false;
@@ -220,17 +136,6 @@ public class Errors {
             return error;
         }
 
-        public Builder id(String id) {
-            this.error.id = id;
-            return this;
-        }
-
-        public Builder fieldName(String fieldName) {
-
-            this.error.setFieldName(fieldName);
-
-            return this;
-        }
 
         public Builder errorType(String errorType) {
 
@@ -258,40 +163,6 @@ public class Errors {
             this.error.setLevel(level);
             return this;
         }
-
-
-        public Builder accountDto(Object accountDto) {
-
-            this.error.setAccountDto(accountDto);
-            return this;
-        }
-
-        public Builder user(Object user) {
-            this.error.setUser(user);
-            return this;
-        }
-
-        public Builder whatsNewList(List<String> whatsNewList) {
-
-            this.error.setWhatsNewList(whatsNewList);
-
-            return this;
-        }
-
-        public Builder fieldValue(double fieldValue) {
-
-            this.error.setFieldValue(fieldValue);
-
-            return this;
-        }
-
-        public Builder additionalInfo(Object additionalInfo) {
-
-            this.error.setAdditionalInfo(additionalInfo);
-
-            return this;
-        }
-
 
     }
 

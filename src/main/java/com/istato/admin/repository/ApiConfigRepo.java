@@ -1,5 +1,6 @@
 package com.istato.admin.repository;
 
+import com.istato.admin.baseclasses.BaseResponse;
 import com.istato.admin.model.ApiConfig;
 
 import java.util.List;
