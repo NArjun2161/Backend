@@ -5,4 +5,6 @@ import com.istato.admin.model.Admin;
 
 public interface AdminRepository {
     BaseResponse createAdmin(Admin admin);
+
+    Admin getAdminByUsername(String userName);
 }
