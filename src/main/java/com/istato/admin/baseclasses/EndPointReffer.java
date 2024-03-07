@@ -14,4 +14,6 @@ public class EndPointReffer {
     public static final String CREATE_EXECUTIVE_CONTROLLER ="save-api-executive" ;
     public static final String SAVE_EXECUTIVE_CONTROLLER = "save-executive-application" ;
     public static final String UPDATE_API_CONFIG ="update-api-config" ;
+    public static final String GET_ALL_EXECUTIVES_CONTROLLER = "get-all-executives";
+    public static final String GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER ="get-executive-by-status" ;
 }

@@ -1,10 +1,6 @@
 package com.istato.admin.service.impl;
 
-import com.istato.admin.baseclasses.BaseResponse;
-import com.istato.admin.baseclasses.EndPointReffer;
-import com.istato.admin.baseclasses.ErrorCode;
-import com.istato.admin.baseclasses.Errors;
-import com.istato.admin.controller.ExecutiveContoller;
+import com.istato.admin.baseclasses.*;
 import com.istato.admin.model.ApiConfig;
 import com.istato.admin.model.Executive;
 import com.istato.admin.model.ExecutiveApplication;
@@ -19,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Random;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -35,12 +29,13 @@ public class ExecutiveServiceImpl implements ExecutiveService {
 
     @Autowired
     ApiConfigRepo apiConfigRepo;
+
     @Autowired
     ExecutiveApplicationService executiveApplicationService;
 
     @Override
     public BaseResponse createExecutive(Executive executive) {
-        BaseResponse baseResponse = null;
+        BaseResponse baseResponse;
         ExecutiveApplication executiveApplication = new ExecutiveApplication();
         try {
             if (checkIfRoleExists(executive.getRole())) {
@@ -83,6 +78,27 @@ public class ExecutiveServiceImpl implements ExecutiveService {
             baseResponse = IstatoUtils.getBaseResponse(HttpStatus.EXPECTATION_FAILED, errors);
         }
         return baseResponse;
+    }
+
+    @Override
+    public List<BaseResponse> getAllExecutives() {
+
+        List<BaseResponse> baseResponse = null;
+        log.info("inside getAllExecutives");
+        try {
+            baseResponse = executiveRepository.getAllExecutives();
+            log.info("baseResponse in service {}", baseResponse);
+        } catch (Exception e) {
+            log.error("Exception occurred while getting product list {}", e.getMessage());
+        }
+        return baseResponse;
+
+
+    }
+
+    @Override
+    public List<Executive> getAllActiveExecutives(String isActive) {
+        return executiveRepository.getAllExecutives(Boolean.parseBoolean(isActive));
     }
 
     private boolean checkIfRoleExists(String roleName) {
