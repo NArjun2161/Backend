@@ -13,14 +13,19 @@ import java.util.List;
 @Builder
 @Document(value = "role")
 public class Role {
+
     @JsonProperty("sRoleId")
     private String roleId;
+
     @JsonProperty("sRoleName")
     private String roleName;
+
     @JsonProperty("sRoleDescription")
     private String roleDescription;
-    @JsonProperty("bActive")
-    private Boolean active;
+
+    @JsonProperty("bIsActive")
+    private Boolean isActive;
+
     @JsonProperty("lAuthorizedActions")
     private List<String> authorizedActions;
 }
