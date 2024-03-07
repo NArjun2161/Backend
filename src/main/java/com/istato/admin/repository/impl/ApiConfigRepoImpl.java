@@ -14,6 +14,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @Slf4j
 public class ApiConfigRepoImpl implements ApiConfigRepo {
@@ -33,12 +35,32 @@ public class ApiConfigRepoImpl implements ApiConfigRepo {
 
     @Override
     public ApiConfig getApiConfig(String apiName) {
-        log.info("Inside getApiConfig");
+        ApiConfig apiConfig=null;
+        log.info("Inside ApiConfigRepoImpl.getApiConfig");
         try{
+
             Query query = new Query();
             query.addCriteria(Criteria.where(Constants.API_NAME).is(apiName)
                     .and(Constants.IS_ACTIVE).is(true));
-            return mongoTemplate.findOne(query, ApiConfig.class);
+            apiConfig = mongoTemplate.findOne(query, ApiConfig.class);
+        } catch (Exception e) {
+            log.error("Exception occurred while fetching apiConfig from DB with probable cause {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return apiConfig;
+    }
+    @Override
+    public List<ApiConfig> getAllApiConfig(Boolean isActive) {
+        List<ApiConfig> apiConfigList ;
+        try{
+            if(isActive!=null){
+            Query query = new Query();
+            query.addCriteria(Criteria.where(Constants.IS_ACTIVE).is(isActive));
+            apiConfigList = mongoTemplate.find(query, ApiConfig.class);
+            }else {
+            apiConfigList = mongoTemplate.findAll(ApiConfig.class);
+            }
+            return apiConfigList;
         } catch (Exception e) {
             log.error("Exception occurred while fetching apiConfig from DB with probable cause {}", e.getMessage());
             throw new RuntimeException(e);
