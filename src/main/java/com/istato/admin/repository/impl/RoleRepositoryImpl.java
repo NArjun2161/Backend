@@ -1,6 +1,7 @@
 package com.istato.admin.repository.impl;
 
 import com.istato.admin.baseclasses.BaseResponse;
+import com.istato.admin.baseclasses.Constants;
 import com.istato.admin.model.Role;
 import com.istato.admin.repository.RoleRepository;
 import com.istato.admin.utils.IstatoUtils;
@@ -29,7 +30,7 @@ public class RoleRepositoryImpl implements RoleRepository {
             logger.info("inside saveRole");
             baseResponse= IstatoUtils.getBaseResponse(HttpStatus.OK, mongoTemplate.save(role));
         }catch (Exception e){
-            logger.error("Exception occurd while creating role{}" , e.getMessage());
+            logger.error("Exception occurred while creating role{}" , e.getMessage());
         }
         return baseResponse;
     }
@@ -37,7 +38,7 @@ public class RoleRepositoryImpl implements RoleRepository {
     @Override
     public boolean existsByRoleName(String roleName) {
         Query query = new Query();
-        query =query.addCriteria(Criteria.where("roleName").is(roleName));
+        query =query.addCriteria(Criteria.where(Constants.ROLE_NAME).is(roleName));
         List<Role> roles = mongoTemplate.find(query, Role.class);
         for (Role role : roles) {
             if (role.getRoleName().equals(roleName)) {

@@ -16,4 +16,5 @@ public class EndPointReffer {
     public static final String UPDATE_API_CONFIG ="update-api-config" ;
     public static final String GET_ALL_EXECUTIVES_CONTROLLER = "get-all-executives";
     public static final String GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER ="get-executive-by-status" ;
+    public static final String CREATE_ADMIN = "create-admin";
 }
