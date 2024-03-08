@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
@@ -46,5 +47,25 @@ public class RoleRepositoryImpl implements RoleRepository {
             }
         }
         return false;
+    }
+
+    @Override
+    public BaseResponse update(Role role) {
+        BaseResponse baseResponse = null;
+        try {
+            logger.info("inside updateRole..");
+            Query query = new Query();
+            query.addCriteria(Criteria.where(Constants.ROLE_ID).is(role.getRoleId()));
+            Update update = new Update();
+            update.set(String.valueOf(Constants.ACTIVE), role.getActive());
+            update.set(String.valueOf(Constants.AUTHORIZED_ACTIONS), role.getAuthorizedActions());
+
+            baseResponse = IstatoUtils.getBaseResponse(
+                    HttpStatus.OK,
+                    mongoTemplate.upsert(query, update, Role.class));
+        } catch (Exception e) {
+            logger.error("Exception occurred while updating role{}", e.getMessage());
+        }
+        return baseResponse;
     }
 }
