@@ -7,4 +7,6 @@ public interface RoleRepository {
 
     BaseResponse save(Role role);
     boolean existsByRoleName(String roleName);
+
+    BaseResponse update(Role role);
 }

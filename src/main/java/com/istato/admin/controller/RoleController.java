@@ -9,10 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -26,5 +23,11 @@ public class RoleController {
     public BaseResponse createRole(@RequestBody Role role) {
         log.info(EndPointReffer.CREATE_ROLE_CONTROLLER + Constants.CONTROLLER_STARTED);
         return roleService.createRole(role);
+    }
+
+    @PutMapping(value = EndPointReffer.UPDATE_ROLE_CONTROLLER)
+    public BaseResponse updateRole(@RequestBody Role role) {
+        log.info(EndPointReffer.UPDATE_ROLE_CONTROLLER + Constants.CONTROLLER_STARTED);
+        return roleService.updateRole(role);
     }
 }

@@ -1,6 +1,9 @@
 package com.istato.admin.baseclasses;
 
 
+import java.util.Collections;
+import java.util.List;
+
 public class Constants {
 
     public static final String ADMIN_SERVICE_UP_AND_RUNNING = "Istato admin service is up and running";
@@ -20,6 +23,11 @@ public class Constants {
     public static final String PASSWORD = "password";
     public static final String API_KEY = "apiKey";
     public static final String ROLE_NAME = "roleName";
+
+    public static final String ROLE_ID = "roleId";
+    public static final Boolean ACTIVE = Boolean.valueOf("active");
+    public static final List<String> AUTHORIZED_ACTIONS = Collections.singletonList("authorizedActions");
+
 
     private Constants() {
 

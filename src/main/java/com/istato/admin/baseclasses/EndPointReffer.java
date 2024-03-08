@@ -4,8 +4,8 @@ public class EndPointReffer {
 
 
     public static final String CREATE_ROLE_CONTROLLER = "create-role";
+    public static final String UPDATE_ROLE_CONTROLLER = "update-role";
     public static final String SAVE_API_CONFIG ="save-api-config" ;
-
     public static final String ADD_EXPENSE = "/add";
     public static final String EXPENSE_API = "/api/expenses";
     public static final String GET_ALL_API_CONFIG_BY_ACTIVE ="get-all-api-config-by-active" ;
@@ -18,4 +18,5 @@ public class EndPointReffer {
     public static final String GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER ="get-executive-by-status" ;
     public static final String CREATE_ADMIN = "create-admin";
     public static final String ADMIN_LOGIN = "admin-login";
+
 }
