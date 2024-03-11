@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,9 +35,9 @@ public class ApiConfigRepoImpl implements ApiConfigRepo {
 
     @Override
     public ApiConfig getApiConfig(String apiName) {
-        ApiConfig apiConfig=null;
+        ApiConfig apiConfig = null;
         log.info("Inside ApiConfigRepoImpl.getApiConfig");
-        try{
+        try {
 
             Query query = new Query();
             query.addCriteria(Criteria.where(Constants.API_NAME).is(apiName)
@@ -50,16 +49,17 @@ public class ApiConfigRepoImpl implements ApiConfigRepo {
         }
         return apiConfig;
     }
+
     @Override
     public List<ApiConfig> getAllApiConfig(Boolean isActive) {
-        List<ApiConfig> apiConfigList ;
-        try{
-            if(isActive!=null){
-            Query query = new Query();
-            query.addCriteria(Criteria.where(Constants.IS_ACTIVE).is(isActive));
-            apiConfigList = mongoTemplate.find(query, ApiConfig.class);
-            }else {
-            apiConfigList = mongoTemplate.findAll(ApiConfig.class);
+        List<ApiConfig> apiConfigList;
+        try {
+            if (isActive != null) {
+                Query query = new Query();
+                query.addCriteria(Criteria.where(Constants.IS_ACTIVE).is(isActive));
+                apiConfigList = mongoTemplate.find(query, ApiConfig.class);
+            } else {
+                apiConfigList = mongoTemplate.findAll(ApiConfig.class);
             }
             return apiConfigList;
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public class ApiConfigRepoImpl implements ApiConfigRepo {
             } else if (apiName != null && !isactive) {
                 log.info("Api name not null and isactive status false");
                 query.addCriteria(Criteria.where(Constants.API_NAME).is(apiName).and("isActive").is(isactive));
-            }  else if (isactive) {
+            } else if (isactive) {
                 log.info("Deleting all records with isActive status true");
                 query.addCriteria(Criteria.where("isActive").is(true));
             } else if (!isactive) {
@@ -102,11 +102,11 @@ public class ApiConfigRepoImpl implements ApiConfigRepo {
 
     @Override
     public BaseResponse updateApiConfig(ApiConfig apiConfig) {
-        BaseResponse baseResponse= null;
+        BaseResponse baseResponse = null;
         Query query = new Query();
         Update update = new Update();
         log.info("Inside ApiConfigRepoImpl.updateApiConfig");
-        try{
+        try {
             query = query.addCriteria(Criteria.where(Constants.API_NAME).is(apiConfig.getApiName())
                     .and(Constants.IS_ACTIVE).is(true));
             update.set(Constants.ENCRYPTION_KEY, apiConfig.getEncryptionKey());

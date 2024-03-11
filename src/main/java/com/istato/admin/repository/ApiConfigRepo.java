@@ -16,8 +16,6 @@ public interface ApiConfigRepo {
 
     BaseResponse deleteAll();
 
-
-
     List<ApiConfig> getAllApiConfig(Boolean isActive);
 
     BaseResponse updateApiConfig(ApiConfig apiConfig);

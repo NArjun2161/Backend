@@ -106,9 +106,10 @@ public class Errors {
         } else if (!level.equals(other.level)) return false;
         if (message == null) {
             if (other.message != null) return false;
-        } if (validationError == null){
+        }
+        if (validationError == null) {
             if (other.validationError != null) return false;
-        }else if (!message.equals(other.message)) return false;
+        } else if (!message.equals(other.message)) return false;
         return true;
     }
 
@@ -182,7 +183,8 @@ public class Errors {
             this.error.setLevel(level);
             return this;
         }
-        public Builder validationError(BindingResult validationError){
+
+        public Builder validationError(BindingResult validationError) {
             this.error.setError(validationError);
             return this;
         }

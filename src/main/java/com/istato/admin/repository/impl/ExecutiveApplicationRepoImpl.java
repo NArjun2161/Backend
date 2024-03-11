@@ -12,9 +12,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class ExecutiveApplicationRepoImpl implements ExecutiveApplicationRepo {
-    static Logger logger= LoggerFactory.getLogger(ExecutiveApplicationRepoImpl.class);
+    static Logger logger = LoggerFactory.getLogger(ExecutiveApplicationRepoImpl.class);
     @Autowired
     MongoTemplate mongoTemplate;
+
     @Override
     public ExecutiveApplication saveExecutiveApplication(ExecutiveApplication executiveApplication) {
 

@@ -15,20 +15,28 @@ public class ApiConfig {
 
     @JsonProperty("sApiName")
     private String apiName;
+
     @JsonProperty("sEncryptionKey")
     private String encryptionKey;
+
     @JsonProperty("sIvKey")
     private String ivKey;
+
     @JsonProperty("bIsActive")
     private boolean isActive;
+
     @JsonProperty("sSandboxNo")
     private String sandboxNo;
+
     @JsonProperty("sApiUrl")
     private String apiUrl;
+
     @JsonProperty("sUsername")
     private String userName;
+
     @JsonProperty("sPassword")
     private String password;
+
     @JsonProperty("sApiKey")
     private String apiKey;
 

@@ -11,8 +11,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class ExecutiveApplication {
+
     @JsonProperty("sExecutiveId")
     private String executiveId;
+
     @JsonProperty("oExecutive")
     private Executive executive;
 }

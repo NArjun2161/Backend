@@ -19,16 +19,17 @@ public class ExecutiveApplicationServiceImpl implements ExecutiveApplicationServ
     @Autowired
     ExecutiveApplicationRepo executiveApplicationRepo;
     private static final Logger logger = LoggerFactory.getLogger(ExecutiveApplicationServiceImpl.class);
+
     @Override
     public BaseResponse saveExecutiveApplication(ExecutiveApplication executiveApplication) {
-        BaseResponse baseResponse=null;
+        BaseResponse baseResponse = null;
         ExecutiveApplication executiveApplication1;
         try {
-            if(executiveApplication!=null ){
-                if(executiveApplication.getExecutiveId()!=null) {
+            if (executiveApplication != null) {
+                if (executiveApplication.getExecutiveId() != null) {
                     logger.info("ExecutiveApplicationServiceImpl: saveExecutiveApplication: {}", executiveApplication);
-                     executiveApplicationRepo.saveExecutiveApplication(executiveApplication);
-                }else {
+                    executiveApplicationRepo.saveExecutiveApplication(executiveApplication);
+                } else {
                     logger.error(Constants.NULL_REQUEST);
                     Collection<Errors> errors = new ArrayList<>();
                     errors.add(Errors.builder()
@@ -41,8 +42,7 @@ public class ExecutiveApplicationServiceImpl implements ExecutiveApplicationServ
                     baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
 
                 }
-            }
-            else{
+            } else {
                 logger.error(Constants.NULL_REQUEST);
                 Collection<Errors> errors = new ArrayList<>();
                 errors.add(Errors.builder()
@@ -55,8 +55,8 @@ public class ExecutiveApplicationServiceImpl implements ExecutiveApplicationServ
                 baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
             }
 
-        }catch (Exception e) {
-            logger.error("Exception Occurs while saving",e.getMessage());
+        } catch (Exception e) {
+            logger.error("Exception Occurs while saving", e.getMessage());
             throw new RuntimeException("Exception occurred while saving");
 
         }

@@ -18,13 +18,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import java.util.ArrayList;
-import java.util.Collection;
 
 @Service
 @Slf4j
@@ -113,10 +108,10 @@ public class ApiConfigServiceImpl implements ApiConfigService {
     public BaseResponse updateApiConfig(ApiConfig apiConfig) {
         BaseResponse baseResponse = null;
         log.info("Inside ApiConfigServiceImpl.updateApiConfig");
-        try{
-            if(apiConfig.getApiName() != null){
+        try {
+            if (apiConfig.getApiName() != null) {
                 baseResponse = apiConfigRepo.updateApiConfig(apiConfig);
-            }else {
+            } else {
                 log.error("ApiName is null");
                 Collection<Errors> errors = new ArrayList<>();
                 errors.add(Errors.builder()

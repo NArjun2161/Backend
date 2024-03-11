@@ -14,9 +14,8 @@ public interface ApiConfigService {
 
     BaseResponse deleteApiAll();
 
+    List<ApiConfig> getAllApiConfig(String isActive);
 
-
-   List<ApiConfig> getAllApiConfig(String isActive);
     BaseResponse getApiConfig(String apiName);
 
     BaseResponse updateApiConfig(ApiConfig apiConfig);

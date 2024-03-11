@@ -40,7 +40,7 @@ public class ExecutiveServiceImpl implements ExecutiveService {
         try {
             if (checkIfRoleExists(executive.getRole())) {
                 // Additional validation or business logic if needed
-                ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_EXECUTIVE_CONTROLLER);
+                ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_EXECUTIVE_CONTROLLER);
                 int randomIstNumber = 8900 + new Random().nextInt(100);
                 String formattedIstNumber = String.format("%04d", randomIstNumber);
                 String executiveId = "IST-" + formattedIstNumber;

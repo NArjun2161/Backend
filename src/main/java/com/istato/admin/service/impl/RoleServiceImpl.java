@@ -23,9 +23,9 @@ public class RoleServiceImpl implements RoleService {
     public BaseResponse createRole(Role role) {
         BaseResponse baseResponse = null;
         try {
-            role.setRoleId(IstatoUtils.generateRoleId(role.getRoleName(),"1000"));
+            role.setRoleId(IstatoUtils.generateRoleId(role.getRoleName(), "1000"));
             baseResponse = roleRepository.save(role);
-        }catch (Exception e){
+        } catch (Exception e) {
             Collection<Errors> errors = new ArrayList<>();
             errors.add(Errors.builder()
                     .message(ErrorCode.EXCEPTION)
@@ -35,6 +35,6 @@ public class RoleServiceImpl implements RoleService {
                     .build());
             baseResponse = IstatoUtils.getBaseResponse(HttpStatus.EXPECTATION_FAILED, errors);
         }
-        return  baseResponse;
+        return baseResponse;
     }
 }
