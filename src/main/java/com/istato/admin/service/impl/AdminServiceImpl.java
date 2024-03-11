@@ -3,6 +3,7 @@ package com.istato.admin.service.impl;
 import com.istato.admin.baseclasses.*;
 import com.istato.admin.model.Admin;
 import com.istato.admin.model.AdminLoginSuccessResponse;
+import com.istato.admin.model.AdminUpdatePasswordRequest;
 import com.istato.admin.model.ApiConfig;
 import com.istato.admin.repository.AdminRepository;
 import com.istato.admin.repository.ApiConfigRepo;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -33,11 +35,24 @@ public class AdminServiceImpl implements AdminService {
         log.info("Inside createAdmin Service ");
         try {
             if (admin != null && admin.getPassword().equals(admin.getConfirmedPassword())) {
-                ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_ADMIN);
-                admin.setPassword(IstatoUtils.encryptString(admin.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-                admin.setConfirmedPassword(IstatoUtils.encryptString(admin.getConfirmedPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-                admin.setCreatedDate(new Date());
-                baseResponse = adminRepository.createAdmin(admin);
+                List<Admin> adminList = adminRepository.getAdminByUsername(admin.getUserName());
+                if (adminList.isEmpty()) {
+                    ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_ADMIN);
+                    admin.setPassword(IstatoUtils.encryptString(admin.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
+                    admin.setConfirmedPassword(null);
+                    admin.setCreatedDate(new Date());
+                    baseResponse = adminRepository.createAdmin(admin);
+                }else {
+                    log.error("Username already exists");
+                    Collection<Errors> errors = new ArrayList<>();
+                    errors.add(Errors.builder()
+                            .message(ErrorCode.USERNAME_EXISTS)
+                            .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                            .errorType(Errors.ERROR_TYPE.USER.toValue())
+                            .level(Errors.SEVERITY.HIGH.name())
+                            .build());
+                    baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+                }
             } else {
                 Collection<Errors> errors = new ArrayList<>();
                 errors.add(Errors.builder()
@@ -58,19 +73,19 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public BaseResponse adminLogin(Admin admin) {
         log.info("Inside Admin login");
-        BaseResponse baseResponse= null;
-        try{
-            if (admin.getUserName() != null && admin.getPassword() != null){
-                Admin admin1 = adminRepository.getAdminByUsername(admin.getUserName());
-                if (admin1 != null){
+        BaseResponse baseResponse = null;
+        try {
+            if (admin.getUserName() != null && admin.getPassword() != null) {
+                List<Admin> adminList = adminRepository.getAdminByUsername(admin.getUserName());
+                if (!adminList.isEmpty()) {
                     ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_ADMIN);
-                    if (IstatoUtils.decryptString(admin1.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()).equals(admin.getPassword())){
+                    if (IstatoUtils.decryptString(adminList.get(0).getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()).equals(admin.getPassword())) {
                         AdminLoginSuccessResponse adminLoginSuccessResponse = AdminLoginSuccessResponse.builder()
                                 .isLoginSuccess(true)
                                 .date(new Date())
                                 .build();
                         baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, adminLoginSuccessResponse);
-                    }else {
+                    } else {
                         Collection<Errors> errors = new ArrayList<>();
                         errors.add(Errors.builder()
                                 .message(ErrorCode.WRONG_PASSWORD)
@@ -80,7 +95,7 @@ public class AdminServiceImpl implements AdminService {
                                 .build());
                         baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
                     }
-                }else {
+                } else {
                     Collection<Errors> errors = new ArrayList<>();
                     errors.add(Errors.builder()
                             .message(ErrorCode.ADMIN_NOT_EXISTS)
@@ -90,7 +105,7 @@ public class AdminServiceImpl implements AdminService {
                             .build());
                     baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
                 }
-            }else{
+            } else {
                 Collection<Errors> errors = new ArrayList<>();
                 errors.add(Errors.builder()
                         .message(ErrorCode.NULL_REQUEST)
@@ -106,4 +121,58 @@ public class AdminServiceImpl implements AdminService {
         }
         return baseResponse;
     }
+
+    @Override
+    public BaseResponse updateAdminPassword(AdminUpdatePasswordRequest adminUpdatePasswordRequest) {
+     BaseResponse baseResponse=null;
+       try {
+           if (adminUpdatePasswordRequest != null && adminUpdatePasswordRequest.getPassword() != null &&adminUpdatePasswordRequest.getNewPassword()!= null) {
+               log.info("Inside updateAdminPassword {}", adminUpdatePasswordRequest);
+               List<Admin> adminList = adminRepository.getAdminByUsername(adminUpdatePasswordRequest.getUserName());
+               Admin admin = adminList.get(0);
+               if (admin != null) {
+                   ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_ADMIN);
+                   String decryptedPassword = IstatoUtils.decryptString(admin.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey());
+                   if (adminUpdatePasswordRequest.getPassword().equals(decryptedPassword)) {
+                       admin.setPassword(IstatoUtils.encryptString(adminUpdatePasswordRequest.getNewPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
+                       baseResponse = adminRepository.updateAdminPassword(admin);
+                   }else{
+                       log.error("Wrong password ");
+                       Collection<Errors> errors = new ArrayList<>();
+                       errors.add(Errors.builder()
+                               .message(ErrorCode.WRONG_PASSWORD)
+                               .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                               .errorType(Errors.ERROR_TYPE.USER.toValue())
+                               .level(Errors.SEVERITY.HIGH.name())
+                               .build());
+                       baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+                   }
+               }else {
+                   log.error("Wrong username");
+                   Collection<Errors> errors = new ArrayList<>();
+                   errors.add(Errors.builder()
+                           .message(ErrorCode.WRONG_USERNAME)
+                           .errorCode(String.valueOf(Errors.ERROR_TYPE.DATABASE.toCode()))
+                           .errorType(Errors.ERROR_TYPE.DATABASE.toValue())
+                           .level(Errors.SEVERITY.HIGH.name())
+                           .build());
+                   baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+               }
+           } else {
+               Collection<Errors> errors = new ArrayList<>();
+               errors.add(Errors.builder()
+                       .message(ErrorCode.NULL_REQUEST)
+                       .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                       .errorType(Errors.ERROR_TYPE.USER.toValue())
+                       .level(Errors.SEVERITY.HIGH.name())
+                       .build());
+               baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+           }
+       } catch (Exception e) {
+           log.error("Exception occurred while updating admin password with probable cause {}", e.getMessage());
+           throw new RuntimeException(e);
+       }
+       return baseResponse;
+    }
+
 }
