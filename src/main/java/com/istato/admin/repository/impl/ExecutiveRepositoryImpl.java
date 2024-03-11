@@ -56,5 +56,5 @@ public class ExecutiveRepositoryImpl implements ExecutiveRepository {
         Query query = new Query(Criteria.where("isActive").is(isActive));
         List<Executive> executives = mongoTemplate.find(query, Executive.class);
         return executives;
-}
+    }
 }

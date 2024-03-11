@@ -33,7 +33,7 @@ public class AdminServiceImpl implements AdminService {
         log.info("Inside createAdmin Service ");
         try {
             if (admin != null && admin.getPassword().equals(admin.getConfirmedPassword())) {
-                ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_ADMIN);
+                ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_ADMIN);
                 admin.setPassword(IstatoUtils.encryptString(admin.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                 admin.setConfirmedPassword(IstatoUtils.encryptString(admin.getConfirmedPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                 admin.setCreatedDate(new Date());
@@ -58,19 +58,19 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public BaseResponse adminLogin(Admin admin) {
         log.info("Inside Admin login");
-        BaseResponse baseResponse= null;
-        try{
-            if (admin.getUserName() != null && admin.getPassword() != null){
+        BaseResponse baseResponse = null;
+        try {
+            if (admin.getUserName() != null && admin.getPassword() != null) {
                 Admin admin1 = adminRepository.getAdminByUsername(admin.getUserName());
-                if (admin1 != null){
-                    ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_ADMIN);
-                    if (IstatoUtils.decryptString(admin1.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()).equals(admin.getPassword())){
+                if (admin1 != null) {
+                    ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_ADMIN);
+                    if (IstatoUtils.decryptString(admin1.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()).equals(admin.getPassword())) {
                         AdminLoginSuccessResponse adminLoginSuccessResponse = AdminLoginSuccessResponse.builder()
                                 .isLoginSuccess(true)
                                 .date(new Date())
                                 .build();
                         baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, adminLoginSuccessResponse);
-                    }else {
+                    } else {
                         Collection<Errors> errors = new ArrayList<>();
                         errors.add(Errors.builder()
                                 .message(ErrorCode.WRONG_PASSWORD)
@@ -80,7 +80,7 @@ public class AdminServiceImpl implements AdminService {
                                 .build());
                         baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
                     }
-                }else {
+                } else {
                     Collection<Errors> errors = new ArrayList<>();
                     errors.add(Errors.builder()
                             .message(ErrorCode.ADMIN_NOT_EXISTS)
@@ -90,7 +90,7 @@ public class AdminServiceImpl implements AdminService {
                             .build());
                     baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
                 }
-            }else{
+            } else {
                 Collection<Errors> errors = new ArrayList<>();
                 errors.add(Errors.builder()
                         .message(ErrorCode.NULL_REQUEST)

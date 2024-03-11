@@ -35,9 +35,9 @@ public class ApiConfigRepoImpl implements ApiConfigRepo {
 
     @Override
     public ApiConfig getApiConfig(String apiName) {
-        ApiConfig apiConfig=null;
+        ApiConfig apiConfig = null;
         log.info("Inside ApiConfigRepoImpl.getApiConfig");
-        try{
+        try {
 
             Query query = new Query();
             query.addCriteria(Criteria.where(Constants.API_NAME).is(apiName)
@@ -49,16 +49,17 @@ public class ApiConfigRepoImpl implements ApiConfigRepo {
         }
         return apiConfig;
     }
+
     @Override
     public List<ApiConfig> getAllApiConfig(Boolean isActive) {
-        List<ApiConfig> apiConfigList ;
-        try{
-            if(isActive!=null){
-            Query query = new Query();
-            query.addCriteria(Criteria.where(Constants.IS_ACTIVE).is(isActive));
-            apiConfigList = mongoTemplate.find(query, ApiConfig.class);
-            }else {
-            apiConfigList = mongoTemplate.findAll(ApiConfig.class);
+        List<ApiConfig> apiConfigList;
+        try {
+            if (isActive != null) {
+                Query query = new Query();
+                query.addCriteria(Criteria.where(Constants.IS_ACTIVE).is(isActive));
+                apiConfigList = mongoTemplate.find(query, ApiConfig.class);
+            } else {
+                apiConfigList = mongoTemplate.findAll(ApiConfig.class);
             }
             return apiConfigList;
         } catch (Exception e) {
@@ -68,12 +69,44 @@ public class ApiConfigRepoImpl implements ApiConfigRepo {
     }
 
     @Override
+    public BaseResponse deleteApiNameOrActiveStatus(String apiName, boolean isactive) {
+        BaseResponse baseResponse = null;
+
+        try {
+            log.info("inside delete Api By name By is active status by only active status by only not active status by only name");
+            Query query = new Query();
+
+            if (apiName != null && isactive) {
+                log.info("Api name not null and isactive status true");
+                query.addCriteria(Criteria.where(Constants.API_NAME).is(apiName).and("isActive").is(isactive));
+            } else if (apiName != null && !isactive) {
+                log.info("Api name not null and isactive status false");
+                query.addCriteria(Criteria.where(Constants.API_NAME).is(apiName).and("isActive").is(isactive));
+            } else if (isactive) {
+                log.info("Deleting all records with isActive status true");
+                query.addCriteria(Criteria.where("isActive").is(true));
+            } else if (!isactive) {
+                log.info("Deleting all records with isActive status false");
+                query.addCriteria(Criteria.where("isActive").is(false));
+            }
+            log.info("query: {}", query);
+            baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, mongoTemplate.remove(query, ApiConfig.class));
+
+        } catch (Exception e) {
+            log.error("Exception occurred while deleting Api by name", e);
+            // Provide meaningful error response
+            baseResponse = IstatoUtils.getBaseResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return baseResponse;
+    }
+
+    @Override
     public BaseResponse updateApiConfig(ApiConfig apiConfig) {
-        BaseResponse baseResponse= null;
+        BaseResponse baseResponse = null;
         Query query = new Query();
         Update update = new Update();
         log.info("Inside ApiConfigRepoImpl.updateApiConfig");
-        try{
+        try {
             query = query.addCriteria(Criteria.where(Constants.API_NAME).is(apiConfig.getApiName())
                     .and(Constants.IS_ACTIVE).is(true));
             update.set(Constants.ENCRYPTION_KEY, apiConfig.getEncryptionKey());
@@ -90,5 +123,43 @@ public class ApiConfigRepoImpl implements ApiConfigRepo {
             throw new RuntimeException(e);
         }
         return baseResponse;
+    }
+
+    @Override
+    public BaseResponse deleteByApiName(String apiName) {
+        BaseResponse baseResponse = null;
+        try {
+            log.info("inside delete by api name only:{}");
+            Query query = new Query();
+            if (apiName != null) {
+                log.info("inside api name not null");
+                query.addCriteria(Criteria.where(Constants.API_NAME).is(apiName));
+            }
+            log.info("query: {}", query);
+            baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, mongoTemplate.remove(query, ApiConfig.class));
+        } catch (Exception e) {
+            log.info("Exception accurred while delete by api name only");
+            baseResponse = IstatoUtils.getBaseResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return baseResponse;
+    }
+
+    @Override
+    public BaseResponse deleteAll() {
+        BaseResponse baseResponse;
+        log.info("Deleting all API configurations");
+        try {
+            if (mongoTemplate != null) {
+                baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, mongoTemplate.remove(new Query(), ApiConfig.class));
+            } else {
+                log.error("MongoTemplate is null");
+                baseResponse = IstatoUtils.getBaseResponse(HttpStatus.INTERNAL_SERVER_ERROR, "MongoTemplate is null");
+            }
+        } catch (Exception e) {
+            log.error("Exception occurred while deleting API configurations: {}", e.getMessage());
+            baseResponse = IstatoUtils.getBaseResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+        return baseResponse;
+
     }
 }

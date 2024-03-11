@@ -9,6 +9,13 @@ public interface ApiConfigRepo {
     ApiConfig saveApiConfig(ApiConfig apiConfig);
 
     ApiConfig getApiConfig(String apiName);
+
+    BaseResponse deleteApiNameOrActiveStatus(String apiName, boolean isactive);
+
+    BaseResponse deleteByApiName(String apiName);
+
+    BaseResponse deleteAll();
+
     List<ApiConfig> getAllApiConfig(Boolean isActive);
 
     BaseResponse updateApiConfig(ApiConfig apiConfig);

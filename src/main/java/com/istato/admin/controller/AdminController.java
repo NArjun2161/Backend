@@ -1,10 +1,8 @@
 package com.istato.admin.controller;
 
-import com.fasterxml.jackson.databind.ser.Serializers;
 import com.istato.admin.baseclasses.BaseResponse;
 import com.istato.admin.baseclasses.Constants;
-import com.istato.admin.baseclasses.EndPointReffer;
-import com.istato.admin.baseclasses.ErrorCode;
+import com.istato.admin.baseclasses.EndPointRefer;
 import com.istato.admin.model.Admin;
 import com.istato.admin.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
@@ -22,17 +20,17 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-    @PostMapping(EndPointReffer.CREATE_ADMIN)
+    @PostMapping(EndPointRefer.CREATE_ADMIN)
     @Valid
     public BaseResponse createAdmin(@RequestBody Admin admin) {
-        log.info(EndPointReffer.CREATE_ADMIN + Constants.CONTROLLER_STARTED);
+        log.info(EndPointRefer.CREATE_ADMIN + Constants.CONTROLLER_STARTED);
         return adminService.createAdmin(admin);
     }
 
-    @PostMapping(EndPointReffer.ADMIN_LOGIN)
+    @PostMapping(EndPointRefer.ADMIN_LOGIN)
     @Valid
     public BaseResponse adminLogin(@RequestBody Admin admin) {
-        log.info(EndPointReffer.ADMIN_LOGIN + Constants.CONTROLLER_STARTED);
+        log.info(EndPointRefer.ADMIN_LOGIN + Constants.CONTROLLER_STARTED);
         return adminService.adminLogin(admin);
     }
 }
