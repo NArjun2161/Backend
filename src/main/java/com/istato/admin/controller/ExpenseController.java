@@ -21,4 +21,10 @@ public class ExpenseController {
         log.info(EndPointReffer.EXPENSE_API + EndPointReffer.ADD_EXPENSE + Constants.CONTROLLER_STARTED);
         return expenseService.addExpense(expenses);
     }
+
+    @PutMapping(value = EndPointReffer.UPDATE_EXPENSES)
+    public BaseResponse updateExpenses(@RequestBody Expenses expenses) {
+        log.info(EndPointReffer.UPDATE_EXPENSES + Constants.CONTROLLER_STARTED);
+        return expenseService.updateExpenses(expenses);
+    }
 }
