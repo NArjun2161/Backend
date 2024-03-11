@@ -9,6 +9,7 @@ public class Constants {
 
     public static final String CONTROLLER_STARTED = " controller started";
     public static final String API_NAME = "apiName";
+    public static  final String CAHNGE_PASSWORD = "changePassword";
     public static final String NULL_REQUEST = "Null requestnull";
     ;
     public static final String ENCRYPTION_KEY = "encryptionKey";
