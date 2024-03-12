@@ -11,7 +11,7 @@ public class ErrorCode {
     public static final String NO_ID_FOUND = "Product ID is required";
     public static final String PRODUCT_NAME_OR_ID_REQUIRED = "Product Id is wrong or missing";
     public static final String PASSWORD_MISMATCH = "Password and confirm password entered dose not match, please try again...!";
-
+    public static final String NULL_ROLE_ID = "Role ID should not be null, please check!";
     private ErrorCode() {
 
     }
