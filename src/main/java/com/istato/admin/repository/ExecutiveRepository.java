@@ -10,5 +10,13 @@ public interface ExecutiveRepository {
 
     List<BaseResponse> getAllExecutives();
 
-    List<Executive> getAllExecutives(boolean b);
+    List<BaseResponse> getAllExecutives(boolean b);
+
+    BaseResponse findByExecutiveId(String executiveId);
+
+    BaseResponse updateExecutive(Executive updatedExecutive);
+
+    Executive getExecutiveByPan(String encryptedPanNumber);
+
+    Executive getExecutiveByUserName(String encryptedUserName);
 }

@@ -7,9 +7,11 @@ import java.util.List;
 
 public interface ExecutiveService {
 
-    BaseResponse createExecutive(Executive executive);
+    BaseResponse createExecutive(Executive executive) throws Exception;
 
     List<BaseResponse> getAllExecutives();
 
-    List<Executive> getAllActiveExecutives(String isActive);
+    List<BaseResponse> getAllActiveExecutives(String isActive);
+
+    BaseResponse updateExeutive(Executive updatedExecutive);
 }

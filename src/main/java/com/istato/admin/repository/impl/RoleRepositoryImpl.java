@@ -38,13 +38,19 @@ public class RoleRepositoryImpl implements RoleRepository {
     @Override
     public boolean existsByRoleName(String roleName) {
         Query query = new Query();
-        query =query.addCriteria(Criteria.where(Constants.ROLE_NAME).is(roleName));
-        List<Role> roles = mongoTemplate.find(query, Role.class);
-        for (Role role : roles) {
-            if (role.getRoleName().equals(roleName)) {
-                return true;
+        logger.info("Inside existsByRoleName repo");
+        try {
+            query = query.addCriteria(Criteria.where(Constants.ROLE_NAME).is(roleName));
+            List<Role> roles = mongoTemplate.find(query, Role.class);
+            for (Role role : roles) {
+                if (role.getRoleName().equals(roleName)) {
+                    return true;
+                }
             }
+            return false;
+        } catch (Exception e) {
+            logger.error("Exception occurred {}", e.getMessage());
+            throw new RuntimeException(e);
         }
-        return false;
     }
 }

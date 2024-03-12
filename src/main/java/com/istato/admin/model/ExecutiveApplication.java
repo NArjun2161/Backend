@@ -15,4 +15,5 @@ public class ExecutiveApplication {
     private String executiveId;
     @JsonProperty("oExecutive")
     private Executive executive;
+
 }
