@@ -3,10 +3,12 @@ package com.istato.admin.baseclasses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.istato.admin.model.Executive;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.util.Collection;
+import java.util.List;
 
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -26,6 +28,11 @@ public class BaseResponse {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    public static List<Executive> getBaseResponses(List<BaseResponse> baseResponse) {
+
+        return null;
     }
 
     public Status getStatus() {

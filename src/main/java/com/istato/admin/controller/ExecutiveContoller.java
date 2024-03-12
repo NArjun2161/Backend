@@ -15,22 +15,28 @@ public class ExecutiveContoller {
     @Autowired
     ExecutiveService executiveService;
 
-    @PostMapping(value = EndPointRefer.CREATE_EXECUTIVE_CONTROLLER)
-    public BaseResponse createExecutive(@RequestBody Executive executive) {
-        log.info(EndPointRefer.CREATE_EXECUTIVE_CONTROLLER + Constants.CONTROLLER_STARTED);
+    @PostMapping(value = EndPointReffer.CREATE_EXECUTIVE_CONTROLLER)
+    public BaseResponse createExecutive(@RequestBody Executive executive) throws Exception {
+        log.info(EndPointReffer.CREATE_EXECUTIVE_CONTROLLER + Constants.CONTROLLER_STARTED);
         return executiveService.createExecutive(executive);
     }
 
-    @GetMapping(EndPointRefer.GET_ALL_EXECUTIVES_CONTROLLER)
+    @GetMapping(EndPointReffer.GET_ALL_EXECUTIVES_CONTROLLER)
     public List<BaseResponse> getAllExecutives() {
-        log.info(EndPointRefer.GET_ALL_EXECUTIVES_CONTROLLER + Constants.CONTROLLER_STARTED);
+        log.info(EndPointReffer.GET_ALL_EXECUTIVES_CONTROLLER + Constants.CONTROLLER_STARTED);
         return executiveService.getAllExecutives();
     }
 
-    @GetMapping(value = EndPointRefer.GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER + "/{isActive}")
-    public List<Executive> getAllActiveExecutives(@PathVariable String isActive) {
-        log.info(EndPointRefer.GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER + Constants.CONTROLLER_STARTED);
+    @GetMapping(value = EndPointReffer.GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER + "/{isActive}")
+    public List<BaseResponse> getAllActiveExecutives(@PathVariable String isActive) {
+        log.info(EndPointReffer.GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER + Constants.CONTROLLER_STARTED);
         return executiveService.getAllActiveExecutives(isActive);
+    }
+
+    @PutMapping(value = EndPointReffer.UPDATE_EXCUTIVE_CONTROLLER)
+    public BaseResponse updateExecutive(@RequestBody Executive updatedExecutive) {
+        log.info(EndPointReffer.UPDATE_EXCUTIVE_CONTROLLER + Constants.CONTROLLER_STARTED);
+        return executiveService.updateExeutive(updatedExecutive);
     }
 
 }
