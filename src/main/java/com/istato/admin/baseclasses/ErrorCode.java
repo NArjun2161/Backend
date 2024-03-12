@@ -18,6 +18,7 @@ public static final String WRONG_PLAN_TYPE_OR_PROPERTY_TYPE = "Wrong plan type o
     ;
 
 
+    public static final String NULL_ROLE_ID = "Role ID should not be null, please check!";
     private ErrorCode() {
 
     }
