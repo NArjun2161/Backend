@@ -5,4 +5,7 @@ import com.istato.admin.model.Expenses;
 
 public interface ExpensesRepo {
     BaseResponse saveExpenses(Expenses expenses);
+
+    BaseResponse update(Expenses expenses);
 }
+

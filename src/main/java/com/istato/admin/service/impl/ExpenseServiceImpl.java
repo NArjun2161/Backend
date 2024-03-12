@@ -8,6 +8,7 @@ import com.istato.admin.service.ExpenseService;
 import com.istato.admin.utils.IstatoUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class ExpenseServiceImpl implements ExpenseService {
                 expenses.getAdminExpense().setDate(new Date());
                 expenses.getExecutiveExpense().setDate(new Date());
                 expenses.getOtherExpenses().setDate(new Date());
+
+
                 baseResponse = expensesRepo.saveExpenses(expenses);
             } else {
                 Collection<Errors> errors = new ArrayList<>();
@@ -46,6 +49,28 @@ public class ExpenseServiceImpl implements ExpenseService {
         } catch (Exception e) {
             log.error("exception occurred while while adding expense:" + e.getMessage());
             throw new RuntimeException();
+        }
+        return baseResponse;
+    }
+
+    @Override
+    public BaseResponse updateExpenses(Expenses expenses) {
+        BaseResponse baseResponse = null;
+        try {
+            if (expenses != null && expenses.getId() != null) {
+                baseResponse = expensesRepo.update(expenses);
+            } else {
+                log.error("Expense should not be null");
+            }
+        } catch (Exception e) {
+            Collection<Errors> errors = new ArrayList<>();
+            errors.add(Errors.builder()
+                    .message(ErrorCode.EXCEPTION)
+                    .errorCode(String.valueOf(Errors.ERROR_TYPE.DATABASE.toCode()))
+                    .errorType(Errors.ERROR_TYPE.DATABASE.toValue())
+                    .level(Errors.SEVERITY.HIGH.name())
+                    .build());
+            baseResponse = IstatoUtils.getBaseResponse(HttpStatus.EXPECTATION_FAILED, errors);
         }
         return baseResponse;
     }

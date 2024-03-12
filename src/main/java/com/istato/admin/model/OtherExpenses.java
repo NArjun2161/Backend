@@ -16,4 +16,9 @@ public class OtherExpenses {
 
     @JsonProperty("iOtherDate")
     private Date date;
+
+    @JsonProperty("dUpdatedAdminDate")
+    private Date UpdatedDate;
+
+
 }
