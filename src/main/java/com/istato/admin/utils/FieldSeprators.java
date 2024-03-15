@@ -1,4 +1,4 @@
-package com.gs.product.service.gsutils;
+package com.istato.admin.utils;
 
 public enum FieldSeprators {
 

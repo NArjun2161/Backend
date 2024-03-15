@@ -1,10 +1,7 @@
 package com.istato.admin.service.impl;
 
 import com.istato.admin.baseclasses.*;
-import com.istato.admin.model.Admin;
-import com.istato.admin.model.AdminLoginSuccessResponse;
-import com.istato.admin.model.AdminUpdatePasswordRequest;
-import com.istato.admin.model.ApiConfig;
+import com.istato.admin.model.*;
 import com.istato.admin.repository.AdminRepository;
 import com.istato.admin.repository.ApiConfigRepo;
 import com.istato.admin.service.AdminService;
@@ -173,6 +170,32 @@ public class AdminServiceImpl implements AdminService {
            throw new RuntimeException(e);
        }
        return baseResponse;
+    }
+
+    @Override
+    public BaseResponse createPlan(PlanDetails planDetails) {
+        String planId = FieldSeprators.BLANK.toFaceValue();
+        String boundValue = FieldSeprators.BLANK.toFaceValue();
+        try{
+            if (planDetails != null) {
+                log.info("Inside createPlan {}", planDetails);
+                if((planDetails.getPlanType().equals("Rental")||planDetails.getPlanType().equals("Sell"))&& (planDetails.getPropertyType().equals("Land")||planDetails.getPropertyType().equals("Flat"))){
+                    ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_PLAN);
+                    boundValue = apiConfig.getAdditionalProperties().getRandomNumberBound();
+                    logger.info("ApiConfig {}", apiConfig);
+                    productId = GsUtils.generateProductId(product.getProductPayload().getProductName(), boundValue);
+                    product.getProductPayload().setProductId(productId);
+                    baseResponse = productRepository.saveProduct(product);
+                   return planRepository.createPlan(planDetails);
+                }
+
+            }
+
+        }catch (Exception e) {
+            log.error("Exception occurred while creating plan {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
 }
