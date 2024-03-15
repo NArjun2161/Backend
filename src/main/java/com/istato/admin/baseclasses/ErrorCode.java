@@ -12,6 +12,7 @@ public class ErrorCode {
     public static final String PASSWORD_MISMATCH = "Password and confirm password entered dose not match, please try again...!";
     public static final String USERNAME_EXISTS = "Username already exists please try with another username";
     public static final String NO_NAME_FOUND = "No name found against provided request.";
+public static final String WRONG_PLAN_TYPE_OR_PROPERTY_TYPE = "Wrong plan type or property type";
 
 
     private ErrorCode() {

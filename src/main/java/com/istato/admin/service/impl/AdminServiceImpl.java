@@ -20,6 +20,7 @@ import java.util.List;
 @Slf4j
 public class AdminServiceImpl implements AdminService {
 
+
     @Autowired
     AdminRepository adminRepository;
 
@@ -172,30 +173,6 @@ public class AdminServiceImpl implements AdminService {
        return baseResponse;
     }
 
-    @Override
-    public BaseResponse createPlan(PlanDetails planDetails) {
-        String planId = FieldSeprators.BLANK.toFaceValue();
-        String boundValue = FieldSeprators.BLANK.toFaceValue();
-        try{
-            if (planDetails != null) {
-                log.info("Inside createPlan {}", planDetails);
-                if((planDetails.getPlanType().equals("Rental")||planDetails.getPlanType().equals("Sell"))&& (planDetails.getPropertyType().equals("Land")||planDetails.getPropertyType().equals("Flat"))){
-                    ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_PLAN);
-                    boundValue = apiConfig.getAdditionalProperties().getRandomNumberBound();
-                    logger.info("ApiConfig {}", apiConfig);
-                    productId = GsUtils.generateProductId(product.getProductPayload().getProductName(), boundValue);
-                    product.getProductPayload().setProductId(productId);
-                    baseResponse = productRepository.saveProduct(product);
-                   return planRepository.createPlan(planDetails);
-                }
 
-            }
-
-        }catch (Exception e) {
-            log.error("Exception occurred while creating plan {}", e.getMessage());
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
 
 }

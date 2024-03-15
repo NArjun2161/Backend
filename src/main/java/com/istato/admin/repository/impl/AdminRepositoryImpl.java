@@ -3,6 +3,7 @@ package com.istato.admin.repository.impl;
 import com.istato.admin.baseclasses.BaseResponse;
 import com.istato.admin.baseclasses.Constants;
 import com.istato.admin.model.Admin;
+import com.istato.admin.model.PlanDetails;
 import com.istato.admin.repository.AdminRepository;
 import com.istato.admin.utils.IstatoUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -61,5 +62,6 @@ public class AdminRepositoryImpl implements AdminRepository {
         baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, mongoTemplate.updateFirst(query, update, Admin.class));
         return baseResponse;
     }
+
 
 }

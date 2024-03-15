@@ -44,9 +44,5 @@ public class AdminController {
         return adminService.updateAdminPassword(adminUpdatePasswordRequest);
     }
 
-    @PostMapping(EndPointRefer.CREATE_PLAN)
-    public BaseResponse createPlan(@RequestBody PlanDetails planDetails) {
-        log.info(EndPointRefer.CREATE_PLAN + Constants.CONTROLLER_STARTED+planDetails.toString());
-        return adminService.createPlan(planDetails);
-    }
+
 }

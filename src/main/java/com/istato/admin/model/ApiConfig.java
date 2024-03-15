@@ -40,5 +40,8 @@ public class ApiConfig {
     @JsonProperty("sApiKey")
     private String apiKey;
 
+    @JsonProperty("oAdditionalProperties")
+    private AdditionalProperties additionalProperties;
+
 
 }

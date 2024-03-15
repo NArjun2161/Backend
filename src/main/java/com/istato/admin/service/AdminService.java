@@ -12,5 +12,5 @@ public interface AdminService {
 
 
     BaseResponse updateAdminPassword(AdminUpdatePasswordRequest adminUpdatePasswordRequest);
-    BaseResponse createPlan(PlanDetails planDetails);
+
 }
