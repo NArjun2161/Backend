@@ -21,6 +21,7 @@ public class EndPointRefer {
     public static final String GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER = "get-executive-by-status";
     public static final String CREATE_ADMIN = "create-admin";
     public static final String ADMIN_LOGIN = "admin-login";
+    public static final String CREATE_PLAN = "create-plan";
 
     private EndPointRefer() {
 
