@@ -9,7 +9,7 @@ public class Constants {
 
     public static final String CONTROLLER_STARTED = " controller started";
     public static final String API_NAME = "apiName";
-    public static  final String CAHNGE_PASSWORD = "changePassword";
+    public static final String CAHNGE_PASSWORD = "changePassword";
     public static final String NULL_REQUEST = "Null requestnull";
     ;
     public static final String ENCRYPTION_KEY = "encryptionKey";
@@ -21,6 +21,10 @@ public class Constants {
     public static final String PASSWORD = "password";
     public static final String API_KEY = "apiKey";
     public static final String ROLE_NAME = "roleName";
+    public static final String RENTAL = "Rental";
+    public static final String SALE = "Sell";
+    public static final String LAND = "Land";
+    public static final String FLAT = "Flat";
 
     private Constants() {
 

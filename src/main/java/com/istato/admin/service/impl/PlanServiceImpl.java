@@ -29,18 +29,19 @@ public class PlanServiceImpl implements PlanService {
         BaseResponse baseResponse = null;
         String planId = FieldSeprators.BLANK.toFaceValue();
         String boundValue = FieldSeprators.BLANK.toFaceValue();
-        try{
+        try {
             if (planDetails != null) {
                 log.info("Inside createPlan {}", planDetails);
-                if((planDetails.getPlanType().equalsIgnoreCase("Rental")||planDetails.getPlanType().equalsIgnoreCase("Sell"))&& (planDetails.getPropertyType().equalsIgnoreCase("Land")||planDetails.getPropertyType().equalsIgnoreCase("Flat"))){
+                if ((planDetails.getPlanType().equalsIgnoreCase(Constants.RENTAL) || planDetails.getPlanType().equalsIgnoreCase(Constants.SALE)) &&
+                        (planDetails.getPropertyType().equalsIgnoreCase(Constants.LAND) || planDetails.getPropertyType().equalsIgnoreCase(Constants.FLAT))) {
                     ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_PLAN);
                     boundValue = apiConfig.getAdditionalProperties().getRandomNumberBound();
                     log.info("ApiConfig {}", apiConfig);
-                    planId = IstatoUtils.generatePlanId(planDetails.getPlanType(),planDetails.getPropertyType(), boundValue);
+                    planId = IstatoUtils.generatePlanId(planDetails.getPlanType(), planDetails.getPropertyType(), boundValue);
                     planDetails.setPlanId(planId);
                     planDetails.setCreatedDate(new Date());
                     return planRepo.createPlan(planDetails);
-                }else {
+                } else {
                     log.error("Wrong plan type or property type");
                     Collection<Errors> errors = new ArrayList<>();
                     errors.add(Errors.builder()
@@ -51,10 +52,7 @@ public class PlanServiceImpl implements PlanService {
                             .build());
                     baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
                 }
-
-
-
-            }else {
+            } else {
                 Collection<Errors> errors = new ArrayList<>();
                 errors.add(Errors.builder()
                         .message(ErrorCode.NULL_REQUEST)
@@ -65,7 +63,7 @@ public class PlanServiceImpl implements PlanService {
                 baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
             }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("Exception occurred while creating plan {}", e.getMessage());
             throw new RuntimeException(e);
         }

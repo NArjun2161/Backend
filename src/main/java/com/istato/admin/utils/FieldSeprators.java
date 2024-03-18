@@ -2,7 +2,7 @@ package com.istato.admin.utils;
 
 public enum FieldSeprators {
 
-    BLANK(" ");
+    BLANK(" "), HYPEN("-");
     private final String stringValue;
 
     FieldSeprators(final String s) {
