@@ -25,6 +25,8 @@ public class Constants {
     public static final String SALE = "Sell";
     public static final String LAND = "Land";
     public static final String FLAT = "Flat";
+    public static final String PLAN_ID = "planId";
+
 
     private Constants() {
 
