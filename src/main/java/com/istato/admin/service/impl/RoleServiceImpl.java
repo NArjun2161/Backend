@@ -65,4 +65,32 @@ public class RoleServiceImpl implements RoleService {
         }
         return baseResponse;
     }
+
+    @Override
+    public BaseResponse updateRole(Role role) {
+        BaseResponse baseResponse = null;
+        try {
+            if (role.getRoleId() == null) {
+                Collection<Errors> errors = new ArrayList<>();
+                errors.add(Errors.builder()
+                        .message(ErrorCode.NULL_ROLE_ID)
+                        .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                        .errorType(Errors.ERROR_TYPE.USER.toValue())
+                                .level(Errors.SEVERITY.HIGH.name())
+                        .build());
+                return IstatoUtils.getBaseResponse(HttpStatus.BAD_REQUEST, errors);
+            }
+            baseResponse = roleRepository.update(role);
+        } catch (Exception e) {
+            Collection<Errors> errors = new ArrayList<>();
+            errors.add(Errors.builder()
+                    .message(ErrorCode.EXCEPTION)
+                    .errorCode(String.valueOf(Errors.ERROR_TYPE.DATABASE.toCode()))
+                    .errorType(Errors.ERROR_TYPE.DATABASE.toValue())
+                    .level(Errors.SEVERITY.HIGH.name())
+                    .build());
+            baseResponse = IstatoUtils.getBaseResponse(HttpStatus.EXPECTATION_FAILED, errors);
+        }
+        return baseResponse;
+    }
 }
