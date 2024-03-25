@@ -27,7 +27,7 @@ public class EndPointRefer {
     public static final String GET_All_PLANS="get-all-plans";
     public static final String GET_PLAN_BY_ID = "get-plan-by-id";
     public static final String GET_PLAN_BY_STATUS = "get-plan-by-status";
-
+    public static final String UPDATE_ROLE_CONTROLLER = "update-role";
     private EndPointRefer() {
 
     }
