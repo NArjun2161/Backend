@@ -13,6 +13,9 @@ public class ErrorCode {
     public static final String USERNAME_EXISTS = "Username already exists please try with another username";
     public static final String NO_NAME_FOUND = "No name found against provided request.";
 public static final String WRONG_PLAN_TYPE_OR_PROPERTY_TYPE = "Wrong plan type or property type";
+    public static final String PLAN_ID_REQUIRED ="pLanId is required";
+    public static final String PLAN_STATUS_REQUIRED ="pLanStatus is required"; ;
+    ;
 
 
     private ErrorCode() {

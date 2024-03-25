@@ -47,7 +47,7 @@ public class IstatoUtils {
         String secPrefix = propertyType.substring(0, Math.min(propertyType.length(), 2)).toUpperCase();
         String randomNumericPart = String.format("%02d", rValue);
 
-        return firstPrefix + secPrefix +FieldSeprators.HYPEN+ randomNumericPart;
+        return firstPrefix + secPrefix +FieldSeprators.HYPEN.toFaceValue()+ randomNumericPart;
     }
 
     public static BaseResponse getBaseResponse(CustomHttpStatus httpStatus, Collection<Errors> errors) {

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -68,5 +69,71 @@ public class PlanServiceImpl implements PlanService {
             throw new RuntimeException(e);
         }
         return baseResponse;
+    }
+
+    @Override
+    public List<PlanDetails> getAllPlans() {
+        List<PlanDetails> planDetailsList=null;
+        try {
+            planDetailsList=planRepo.getAllPlans();
+            log.info("PlanseDetails in service {}", planDetailsList);
+        }
+        catch (Exception e){
+            log.error("Exception occurred while getting all plans {}", e.getMessage());
+        }
+        return planDetailsList;
+    }
+
+    @Override
+    public PlanDetails getPlanById(String planId) {
+        PlanDetails planDetails = null;
+        BaseResponse baseResponse = null;
+        try {
+           if (planId != null){
+               planDetails=planRepo.getPlanById(planId);
+           }else {
+               planDetails.setError(true);
+               Collection<Errors> errors=new ArrayList<>();
+                  errors.add(Errors.builder()
+                          .message(ErrorCode.PLAN_ID_REQUIRED)
+                          .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                          .errorType(Errors.ERROR_TYPE.USER.toValue())
+                          .level(Errors.SEVERITY.HIGH.name())
+                          .build());
+                  log.info("Id is not found" ,ErrorCodes.ER00P2.toFaceValue());
+                  baseResponse=IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+           }
+
+        }catch (Exception e){
+            log.info("Exception occurred while getting plan by id {}", e.getMessage());
+        }
+
+        return planDetails;
+    }
+
+    @Override
+    public List<PlanDetails> getPlanByStatus(boolean isActive) {
+        List<PlanDetails> planDetails=null;
+        BaseResponse baseResponse=null;
+        try {
+            if (isActive || !isActive) {
+                planDetails = planRepo.getPlanByStatus(isActive);
+            } else {
+
+                Collection<Errors> errors = new ArrayList<>();
+                errors.add(Errors.builder()
+                        .message(ErrorCode.PLAN_STATUS_REQUIRED)
+                        .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                        .errorType(Errors.ERROR_TYPE.USER.toValue())
+                        .level(Errors.SEVERITY.HIGH.name())
+                        .build());
+                log.info("Id is not found", ErrorCodes.ER00P2.toFaceValue());
+                baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+
+            }
+        }catch (Exception e){
+            log.info("Exception occurred while getting plan by status {}", e.getMessage());
+        }
+        return  planDetails;
     }
 }

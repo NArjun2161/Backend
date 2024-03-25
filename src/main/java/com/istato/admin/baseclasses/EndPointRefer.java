@@ -24,6 +24,9 @@ public class EndPointRefer {
     public static final String CREATE_PLAN = "create-plan";
     public static final String UPDATE_ADMIN_PASSWORD = "update-admin-password";
     public static final String UPDATE_EXPENSES = "update-expenses";
+    public static final String GET_All_PLANS="get-all-plans";
+    public static final String GET_PLAN_BY_ID = "get-plan-by-id";
+    public static final String GET_PLAN_BY_STATUS = "get-plan-by-status";
 
     private EndPointRefer() {
 

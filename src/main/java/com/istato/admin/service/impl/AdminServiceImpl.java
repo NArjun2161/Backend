@@ -35,7 +35,7 @@ public class AdminServiceImpl implements AdminService {
             if (admin != null && admin.getPassword().equals(admin.getConfirmedPassword())) {
                 List<Admin> adminList = adminRepository.getAdminByUsername(admin.getUserName());
                 if (adminList.isEmpty()) {
-                    ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_ADMIN);
+                    ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_ADMIN);
                     admin.setPassword(IstatoUtils.encryptString(admin.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                     admin.setConfirmedPassword(null);
                     admin.setCreatedDate(new Date());
@@ -76,7 +76,7 @@ public class AdminServiceImpl implements AdminService {
             if (admin.getUserName() != null && admin.getPassword() != null) {
                 List<Admin> adminList = adminRepository.getAdminByUsername(admin.getUserName());
                 if (!adminList.isEmpty()) {
-                    ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_ADMIN);
+                    ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_ADMIN);
                     if (IstatoUtils.decryptString(adminList.get(0).getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()).equals(admin.getPassword())) {
                         AdminLoginSuccessResponse adminLoginSuccessResponse = AdminLoginSuccessResponse.builder()
                                 .isLoginSuccess(true)
@@ -129,7 +129,7 @@ public class AdminServiceImpl implements AdminService {
                List<Admin> adminList = adminRepository.getAdminByUsername(adminUpdatePasswordRequest.getUserName());
                Admin admin = adminList.get(0);
                if (admin != null) {
-                   ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_ADMIN);
+                   ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_ADMIN);
                    String decryptedPassword = IstatoUtils.decryptString(admin.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey());
                    if (adminUpdatePasswordRequest.getPassword().equals(decryptedPassword)) {
                        admin.setPassword(IstatoUtils.encryptString(adminUpdatePasswordRequest.getNewPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));

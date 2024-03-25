@@ -31,4 +31,7 @@ public class PlanDetails {
 
     @JsonProperty("dUpdatedDate")
     private Date updatedDate;
+
+    @JsonProperty("isError")
+    private boolean isError;
 }
