@@ -17,4 +17,5 @@ public class ExecutiveApplication {
 
     @JsonProperty("oExecutive")
     private Executive executive;
+
 }

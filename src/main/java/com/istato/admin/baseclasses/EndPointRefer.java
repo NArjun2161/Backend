@@ -6,9 +6,7 @@ public class EndPointRefer {
     public static final String CREATE_ROLE_CONTROLLER = "create-role";
     public static final String SAVE_API_CONFIG = "save-api-config";
     public static final String DELETE_API_NAME_OR_ACTIVE_STATUS = "delete-api-config";
-
     public static final String DELETE_API_ISACTIVE_STATUS = "delete-api-isactive-status";
-
     public static final String ADD_EXPENSE = "/add";
     public static final String EXPENSE_API = "/api/expenses";
     public static final String GET_ALL_API_CONFIG_BY_ACTIVE = "get-all-api-config-by-active";
@@ -28,6 +26,7 @@ public class EndPointRefer {
     public static final String GET_PLAN_BY_ID = "get-plan-by-id";
     public static final String GET_PLAN_BY_STATUS = "get-plan-by-status";
     public static final String UPDATE_ROLE_CONTROLLER = "update-role";
+    public static final String UPDATE_EXECUTIVE_CONTROLLER ="update-executive";
     private EndPointRefer() {
 
     }

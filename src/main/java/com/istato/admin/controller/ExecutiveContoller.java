@@ -16,7 +16,7 @@ public class ExecutiveContoller {
     ExecutiveService executiveService;
 
     @PostMapping(value = EndPointRefer.CREATE_EXECUTIVE_CONTROLLER)
-    public BaseResponse createExecutive(@RequestBody Executive executive) {
+    public BaseResponse createExecutive(@RequestBody Executive executive) throws Exception {
         log.info(EndPointRefer.CREATE_EXECUTIVE_CONTROLLER + Constants.CONTROLLER_STARTED);
         return executiveService.createExecutive(executive);
     }
@@ -28,9 +28,15 @@ public class ExecutiveContoller {
     }
 
     @GetMapping(value = EndPointRefer.GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER + "/{isActive}")
-    public List<Executive> getAllActiveExecutives(@PathVariable String isActive) {
+    public List<BaseResponse> getAllActiveExecutives(@PathVariable String isActive) {
         log.info(EndPointRefer.GET_ALL_ACTIVE_EXECUTIVES_CONTROLLER + Constants.CONTROLLER_STARTED);
         return executiveService.getAllActiveExecutives(isActive);
+    }
+
+    @PutMapping(value = EndPointRefer.UPDATE_EXECUTIVE_CONTROLLER)
+    public BaseResponse updateExecutive(@RequestBody Executive updatedExecutive) {
+        log.info(EndPointRefer.UPDATE_EXECUTIVE_CONTROLLER + Constants.CONTROLLER_STARTED);
+        return executiveService.updateExeutive(updatedExecutive);
     }
 
 }
