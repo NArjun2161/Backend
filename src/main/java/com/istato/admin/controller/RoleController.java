@@ -28,9 +28,9 @@ public class RoleController {
         return roleService.createRole(role);
     }
 
-    @PutMapping(value = EndPointReffer.UPDATE_ROLE_CONTROLLER)
+    @PutMapping(value = EndPointRefer.UPDATE_ROLE_CONTROLLER)
     public BaseResponse updateRole(@RequestBody Role role) {
-        log.info(EndPointReffer.UPDATE_ROLE_CONTROLLER + Constants.CONTROLLER_STARTED);
+        log.info(EndPointRefer.UPDATE_ROLE_CONTROLLER + Constants.CONTROLLER_STARTED);
         return roleService.updateRole(role);
     }
 }
