@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/role")
@@ -32,5 +34,17 @@ public class RoleController {
     public BaseResponse updateRole(@RequestBody Role role) {
         log.info(EndPointRefer.UPDATE_ROLE_CONTROLLER + Constants.CONTROLLER_STARTED);
         return roleService.updateRole(role);
+    }
+
+    @GetMapping(EndPointRefer.GET_ALL_ROLES)
+    public List<Role> getAllRoles() {
+        log.info(EndPointRefer.GET_ALL_ROLES + Constants.CONTROLLER_STARTED);
+        return roleService.getAllRoles();
+    }
+
+    @GetMapping(EndPointRefer.GET_ALL_ROLES + "/{isActive}")
+    public List<Role> getAllRolesByStatus(@PathVariable String isActive) {
+        log.info(EndPointRefer.GET_ALL_ROLES + Constants.CONTROLLER_STARTED);
+        return roleService.getAllRolesByStatus(isActive);
     }
 }
