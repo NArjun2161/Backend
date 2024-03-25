@@ -38,7 +38,7 @@ public class ExecutiveServiceImpl implements ExecutiveService {
         BaseResponse baseResponse;
         ExecutiveApplication executiveApplication = new ExecutiveApplication();
         try {
-            ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_EXECUTIVE_CONTROLLER);
+            ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_EXECUTIVE_CONTROLLER);
             Executive executiveWithPan = executiveRepository.getExecutiveByPan(IstatoUtils.encryptString(executive.getPersonalDetails().getPanNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
             Executive executiveWithUsername = executiveRepository.getExecutiveByUserName(IstatoUtils.encryptString(executive.getUserName(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
             if (executiveWithPan != null) {
@@ -62,8 +62,6 @@ public class ExecutiveServiceImpl implements ExecutiveService {
                 return IstatoUtils.getBaseResponse(HttpStatus.BAD_REQUEST, errors);
             }
             if (checkIfRoleExists(executive.getRole())) {
-                // Additional validation or business logic if needed
-                ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_EXECUTIVE_CONTROLLER);
                 int randomIstNumber = 8900 + new Random().nextInt(100);
                 String formattedIstNumber = String.format("%04d", randomIstNumber);
                 String executiveId = "IST-" + formattedIstNumber;
@@ -137,7 +135,7 @@ public class ExecutiveServiceImpl implements ExecutiveService {
     @Override
     public BaseResponse updateExeutive(Executive updatedExecutive) {
         BaseResponse baseResponse;
-        ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointReffer.CREATE_EXECUTIVE_CONTROLLER);
+        ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_EXECUTIVE_CONTROLLER);
         try {
             if (updatedExecutive != null && updatedExecutive.getExecutiveId() != null) {
                 updatedExecutive.setUserName(IstatoUtils.encryptString(updatedExecutive.getUserName(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));

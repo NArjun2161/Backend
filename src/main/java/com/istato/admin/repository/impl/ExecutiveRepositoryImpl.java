@@ -160,7 +160,5 @@ public class ExecutiveRepositoryImpl implements ExecutiveRepository {
         }
         return executive;
     }
-        List<Executive> executives = mongoTemplate.find(query, Executive.class);
-        return executives;
-    }
+
 }
