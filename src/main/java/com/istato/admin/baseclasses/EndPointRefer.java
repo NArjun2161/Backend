@@ -28,6 +28,8 @@ public class EndPointRefer {
     public static final String UPDATE_ROLE_CONTROLLER = "update-role";
     public static final String UPDATE_EXECUTIVE_CONTROLLER = "update-executive";
     public static final String GET_ALL_ROLES = "get-all-roles";
+    public static final String MASTER = "master";
+    public static final String UPLOAD_GENERIC_MASTER = "upload-generic-master";
 
     private EndPointRefer() {
 
