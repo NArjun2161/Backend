@@ -20,7 +20,6 @@ import java.util.List;
 @Slf4j
 public class AdminServiceImpl implements AdminService {
 
-
     @Autowired
     AdminRepository adminRepository;
 

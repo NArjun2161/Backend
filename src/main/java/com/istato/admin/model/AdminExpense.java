@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 
@@ -27,5 +28,9 @@ public class AdminExpense {
 
     @JsonProperty("iAdminDate")
     private Date date;
+
+    @Value("$server.name")
+    String data;
+
 
 }

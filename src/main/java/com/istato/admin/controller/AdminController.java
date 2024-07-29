@@ -8,10 +8,7 @@ import com.istato.admin.model.AdminUpdatePasswordRequest;
 import com.istato.admin.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -41,6 +38,5 @@ public class AdminController {
         log.info(EndPointRefer.UPDATE_ADMIN_PASSWORD + Constants.CONTROLLER_STARTED);
         return adminService.updateAdminPassword(adminUpdatePasswordRequest);
     }
-
 
 }

@@ -3,7 +3,6 @@ package com.istato.admin.repository.impl;
 import com.istato.admin.baseclasses.BaseResponse;
 import com.istato.admin.baseclasses.Constants;
 import com.istato.admin.model.Admin;
-import com.istato.admin.model.PlanDetails;
 import com.istato.admin.repository.AdminRepository;
 import com.istato.admin.utils.IstatoUtils;
 import lombok.extern.slf4j.Slf4j;

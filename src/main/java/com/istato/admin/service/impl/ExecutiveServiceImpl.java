@@ -39,6 +39,7 @@ public class ExecutiveServiceImpl implements ExecutiveService {
         ExecutiveApplication executiveApplication = new ExecutiveApplication();
         try {
             ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_EXECUTIVE_CONTROLLER);
+            log.info("ApiConfig : {}", apiConfig);
             Executive executiveWithPan = executiveRepository.getExecutiveByPan(IstatoUtils.encryptString(executive.getPersonalDetails().getPanNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
             Executive executiveWithUsername = executiveRepository.getExecutiveByUserName(IstatoUtils.encryptString(executive.getUserName(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
             if (executiveWithPan != null) {

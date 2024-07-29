@@ -135,11 +135,13 @@ public class ExecutiveRepositoryImpl implements ExecutiveRepository {
 
     @Override
     public Executive getExecutiveByPan(String encryptedPanNumber) {
+        logger.info("inside getExecutiveByPan");
         Executive executive = null;
         Query query = new Query();
         query = query.addCriteria(Criteria.where("personalDetails.panNumber").is(encryptedPanNumber));
         try {
             executive = mongoTemplate.findOne(query, Executive.class);
+            logger.info("Executive : {}", executive);
         } catch (Exception e) {
             logger.error("Exception occurred while getting executive by pan number: {}", e.getMessage());
         }
