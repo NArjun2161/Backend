@@ -38,7 +38,6 @@ public class ApiConfigRepoImpl implements ApiConfigRepo {
         ApiConfig apiConfig = null;
         log.info("Inside ApiConfigRepoImpl.getApiConfig");
         try {
-
             Query query = new Query();
             query.addCriteria(Criteria.where(Constants.API_NAME).is(apiName)
                     .and(Constants.IS_ACTIVE).is(true));
