@@ -19,4 +19,5 @@ public interface ExecutiveRepository {
     Executive getExecutiveByPan(String encryptedPanNumber);
 
     Executive getExecutiveByUserName(String encryptedUserName);
+
 }

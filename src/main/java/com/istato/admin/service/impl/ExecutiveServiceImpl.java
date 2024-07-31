@@ -1,9 +1,7 @@
 package com.istato.admin.service.impl;
 
 import com.istato.admin.baseclasses.*;
-import com.istato.admin.model.ApiConfig;
-import com.istato.admin.model.Executive;
-import com.istato.admin.model.ExecutiveApplication;
+import com.istato.admin.model.*;
 import com.istato.admin.repository.ApiConfigRepo;
 import com.istato.admin.repository.ExecutiveRepository;
 import com.istato.admin.repository.RoleRepository;
@@ -169,6 +167,59 @@ public class ExecutiveServiceImpl implements ExecutiveService {
             baseResponse = IstatoUtils.getBaseResponse(HttpStatus.EXPECTATION_FAILED, errors);
         }
         return baseResponse;
+    }
+
+    @Override
+    public BaseResponse executiveLogin(Executive executive) {
+        log.info("Inside executiveLogin");
+        BaseResponse baseResponse = null;
+        try {
+            if (executive.getUserName() != null && executive.getPassword() != null) {
+                ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_EXECUTIVE_CONTROLLER);
+                Executive executiveFromDB = executiveRepository.getExecutiveByUserName(IstatoUtils.encryptString(executive.getUserName(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
+                if (executiveFromDB != null) {
+                    if (IstatoUtils.decryptString(executiveFromDB.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()).equals(executive.getPassword())) {
+                        AdminLoginSuccessResponse adminLoginSuccessResponse = AdminLoginSuccessResponse.builder()
+                                .isLoginSuccess(true)
+                                .date(new Date())
+                                .build();
+                        baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, adminLoginSuccessResponse);
+                    } else {
+                        Collection<Errors> errors = new ArrayList<>();
+                        errors.add(Errors.builder()
+                                .message(ErrorCode.WRONG_PASSWORD)
+                                .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                                .errorType(Errors.ERROR_TYPE.USER.toValue())
+                                .level(Errors.SEVERITY.HIGH.name())
+                                .build());
+                        baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+                    }
+                } else {
+                    Collection<Errors> errors = new ArrayList<>();
+                    errors.add(Errors.builder()
+                            .message(ErrorCode.EXECUTIVE_NOT_EXISTS)
+                            .errorCode(String.valueOf(Errors.ERROR_TYPE.SYSTEM.toCode()))
+                            .errorType(Errors.ERROR_TYPE.SYSTEM.toValue())
+                            .level(Errors.SEVERITY.HIGH.name())
+                            .build());
+                    baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+                }
+            } else {
+                Collection<Errors> errors = new ArrayList<>();
+                errors.add(Errors.builder()
+                        .message(ErrorCode.NULL_REQUEST)
+                        .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                        .errorType(Errors.ERROR_TYPE.USER.toValue())
+                        .level(Errors.SEVERITY.HIGH.name())
+                        .build());
+                baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+            }
+        } catch (Exception e) {
+            log.error("Exception occurred while login trying to login as executive {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return baseResponse;
+
     }
 
     private boolean checkIfRoleExists(String roleName) {

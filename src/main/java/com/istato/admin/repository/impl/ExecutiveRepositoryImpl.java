@@ -1,6 +1,7 @@
 package com.istato.admin.repository.impl;
 
 import com.istato.admin.baseclasses.BaseResponse;
+import com.istato.admin.baseclasses.Constants;
 import com.istato.admin.baseclasses.Errors;
 import com.istato.admin.model.Executive;
 import com.istato.admin.repository.ExecutiveRepository;
@@ -152,7 +153,7 @@ public class ExecutiveRepositoryImpl implements ExecutiveRepository {
     public Executive getExecutiveByUserName(String encryptedUserName) {
         Executive executive = null;
         Query query = new Query();
-        query = query.addCriteria(Criteria.where("userName").is(encryptedUserName));
+        query = query.addCriteria(Criteria.where(Constants.USERNAME).is(encryptedUserName));
 
         try {
             executive = mongoTemplate.findOne(query, Executive.class);
