@@ -8,6 +8,7 @@ public class ErrorCode {
     public static final String CSV_PARSING_ERROR = "Error occurred while parsing csv file";
     public static final String MASTER_ALREADY_UPLOADED = "master already uploaded";
     public static final String ADMIN_NOT_EXISTS = "The requested admin doesn't exists";
+    public static final String EXECUTIVE_NOT_EXISTS = "The requested executive doesn't exists";
     public static final String WRONG_PASSWORD = "Password you entered is wrong, please try again...!";
     public static final String WRONG_USERNAME = "username you entered is doesn't exists, please try again...!";
     public static final String EXCEPTION = "Exception occurred.";

@@ -14,4 +14,6 @@ public interface ExecutiveService {
     List<BaseResponse> getAllActiveExecutives(String isActive);
 
     BaseResponse updateExeutive(Executive updatedExecutive);
+
+    BaseResponse executiveLogin(Executive executive);
 }

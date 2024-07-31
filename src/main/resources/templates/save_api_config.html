@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Save API Configuration</title>
+</head>
+<body>
+<h1>Save API Configuration</h1>
+<form th:action="@{/save-api-config}" th:method="post">
+    <label for="apiName">API Name:</label>
+    <input type="text" id="apiName" name="apiName" th:field="${apiConfig.apiName}"/>
+    <br>
+    <label for="encryptionKey">Encryption Key:</label>
+    <input type="text" id="encryptionKey" name="encryptionKey" th:field="${apiConfig.encryptionKey}"/>
+    <br>
+    <label for="isActive">Is Active:</label>
+    <input type="checkbox" id="isActive" name="isActive" th:field="${apiConfig.isActive}"/>
+    <br>
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

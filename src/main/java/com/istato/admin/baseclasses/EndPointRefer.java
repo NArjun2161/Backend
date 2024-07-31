@@ -13,6 +13,7 @@ public class EndPointRefer {
     public static final String GET_API_CONFIG_BY_NAME = "get-api-config-by-name";
     public static final String GETALL_API_CONFIG = "getall-api-config";
     public static final String CREATE_EXECUTIVE_CONTROLLER = "save-api-executive";
+    public static final String EXECUTIVE_LOGIN = "executive-login";
     public static final String SAVE_EXECUTIVE_CONTROLLER = "save-executive-application";
     public static final String UPDATE_API_CONFIG = "update-api-config";
     public static final String GET_ALL_EXECUTIVES_CONTROLLER = "get-all-executives";

@@ -21,6 +21,12 @@ public class ExecutiveContoller {
         return executiveService.createExecutive(executive);
     }
 
+    @PostMapping(value = EndPointRefer.EXECUTIVE_LOGIN)
+    public BaseResponse executiveLogin(@RequestBody Executive executive) throws Exception {
+        log.info(EndPointRefer.EXECUTIVE_LOGIN + Constants.CONTROLLER_STARTED);
+        return executiveService.executiveLogin(executive);
+    }
+
     @GetMapping(EndPointRefer.GET_ALL_EXECUTIVES_CONTROLLER)
     public List<BaseResponse> getAllExecutives() {
         log.info(EndPointRefer.GET_ALL_EXECUTIVES_CONTROLLER + Constants.CONTROLLER_STARTED);
