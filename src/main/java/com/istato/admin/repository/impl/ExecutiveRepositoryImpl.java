@@ -4,6 +4,7 @@ import com.istato.admin.baseclasses.BaseResponse;
 import com.istato.admin.baseclasses.Constants;
 import com.istato.admin.baseclasses.Errors;
 import com.istato.admin.model.Executive;
+import com.istato.admin.model.SendOtpResponse;
 import com.istato.admin.repository.ExecutiveRepository;
 import com.istato.admin.utils.IstatoUtils;
 import org.apache.catalina.util.ErrorPageSupport;
@@ -162,6 +163,28 @@ public class ExecutiveRepositoryImpl implements ExecutiveRepository {
             logger.error("Exception occurred while getting executive by user name: {}", e.getMessage(), e);
         }
         return executive;
+    }
+
+    @Override
+    public void saveOtpLogs(SendOtpResponse sendOtpResponse) {
+        try{
+            mongoTemplate.save(sendOtpResponse);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public SendOtpResponse getSmsResponse(String mobileNumber) {
+        SendOtpResponse sendOtpResponse = null;
+        try{
+            Query query = new Query();
+            query = query.addCriteria(Criteria.where("mobileNumber").is(mobileNumber));
+            sendOtpResponse = mongoTemplate.findOne(query, SendOtpResponse.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return sendOtpResponse;
     }
 
 }

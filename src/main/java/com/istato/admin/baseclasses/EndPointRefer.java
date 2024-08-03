@@ -31,6 +31,8 @@ public class EndPointRefer {
     public static final String GET_ALL_ROLES = "get-all-roles";
     public static final String MASTER = "master";
     public static final String UPLOAD_GENERIC_MASTER = "upload-generic-master";
+    public static final String EXECUTIVE_RESET_PASSWORD = "executive-reset-password";
+    public static final String VERIFY_OTP = "verify-otp";
 
     private EndPointRefer() {
 

@@ -2,6 +2,7 @@ package com.istato.admin.controller;
 
 import com.istato.admin.baseclasses.*;
 import com.istato.admin.model.Executive;
+import com.istato.admin.model.VerifyOtpRequest;
 import com.istato.admin.service.ExecutiveService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,19 @@ public class ExecutiveContoller {
         log.info(EndPointRefer.EXECUTIVE_LOGIN + Constants.CONTROLLER_STARTED);
         return executiveService.executiveLogin(executive);
     }
+
+    @PostMapping(value = EndPointRefer.EXECUTIVE_RESET_PASSWORD)
+    public BaseResponse executiveResetPassword(@RequestBody Executive executive) throws Exception {
+        log.info(EndPointRefer.EXECUTIVE_RESET_PASSWORD + Constants.CONTROLLER_STARTED);
+        return executiveService.executiveResetPassword(executive);
+    }
+
+    @PostMapping(value = EndPointRefer.VERIFY_OTP)
+    public BaseResponse verifyOtp(@RequestBody VerifyOtpRequest verifyOtpRequest) throws Exception {
+        log.info(EndPointRefer.VERIFY_OTP + Constants.CONTROLLER_STARTED);
+        return executiveService.verifyOtp(verifyOtpRequest);
+    }
+
 
     @GetMapping(EndPointRefer.GET_ALL_EXECUTIVES_CONTROLLER)
     public List<BaseResponse> getAllExecutives() {
