@@ -50,7 +50,7 @@ public class ExecutiveServiceImpl implements ExecutiveService {
                         .build());
                 return IstatoUtils.getBaseResponse(HttpStatus.BAD_REQUEST, errors);
             }
-            if (executiveWithUsername != null){
+            if (executiveWithUsername != null) {
                 Collection<Errors> errors = new ArrayList<>();
                 errors.add(Errors.builder()
                         .message("userName already exists try another userName..!")
@@ -70,6 +70,7 @@ public class ExecutiveServiceImpl implements ExecutiveService {
                 executive.setPassword(IstatoUtils.encryptString(executive.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                 executive.getPersonalDetails().setPanNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getPanNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                 executive.getPersonalDetails().setAadharNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getAadharNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
+                executive.getPersonalDetails().setContactNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getContactNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                 executiveApplication.setExecutive(executive);
                 executiveApplicationService.saveExecutiveApplication(executiveApplication);
                 baseResponse = executiveRepository.save(executive);
@@ -222,6 +223,88 @@ public class ExecutiveServiceImpl implements ExecutiveService {
 
     }
 
+    @Override
+    public BaseResponse executiveResetPassword(Executive executive) {
+        BaseResponse baseResponse = null;
+        try {
+            if (executive.getUserName() != null) {
+                ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_EXECUTIVE_CONTROLLER);
+                Executive executiveFromDb = executiveRepository.getExecutiveByUserName(IstatoUtils.encryptString(executive.getUserName(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
+                if (executiveFromDb != null) {
+                    SendOtpResponse sendOtpResponse = sendOtpResponseMethod(IstatoUtils.decryptString(executiveFromDb.getPersonalDetails().getContactNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
+                    baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, sendOtpResponse);
+                    executiveRepository.saveOtpLogs(sendOtpResponse);
+                } else {
+                    log.error("wrong username");
+                    Collection<Errors> errors = new ArrayList<>();
+                    errors.add(Errors.builder()
+                            .message(ErrorCode.USERNAME_DOSE_NOT_EXISTS)
+                            .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                            .errorType(Errors.ERROR_TYPE.USER.toValue())
+                            .level(Errors.SEVERITY.HIGH.name())
+                            .build());
+                    baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+                }
+            } else {
+                log.error("Null request");
+                Collection<Errors> errors = new ArrayList<>();
+                errors.add(Errors.builder()
+                        .message(ErrorCode.NO_DATA_FOUND)
+                        .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                        .errorType(Errors.ERROR_TYPE.USER.toValue())
+                        .level(Errors.SEVERITY.HIGH.name())
+                        .build());
+                baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return baseResponse;
+    }
+
+    @Override
+    public BaseResponse verifyOtp(VerifyOtpRequest verifyOtpRequest) {
+        BaseResponse baseResponse = null;
+        try {
+            if (verifyOtpRequest != null) {
+                SendOtpResponse sendOtpResponseFromDb = executiveRepository.getSmsResponse(verifyOtpRequest.getMobileNumber());
+                if (verifyOtpRequest.getOtp().equals(sendOtpResponseFromDb.getOtp())) {
+                    VerifyOtpResponse verifyOtpResponse = VerifyOtpResponse.builder()
+                            .isOtpVerified(true)
+                            .verifiedDate(new Date())
+                            .mobileNumber(sendOtpResponseFromDb.getMobileNumber())
+                            .build();
+                    baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, verifyOtpResponse);
+                } else {
+                    log.error("Wrong OTP ");
+                    Collection<Errors> errors = new ArrayList<>();
+                    errors.add(Errors.builder()
+                            .message(ErrorCode.WRONG_OTP)
+                            .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                            .errorType(Errors.ERROR_TYPE.USER.toValue())
+                            .level(Errors.SEVERITY.HIGH.name())
+                            .build());
+                    baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+                }
+            } else {
+                log.error("Null request");
+                Collection<Errors> errors = new ArrayList<>();
+                errors.add(Errors.builder()
+                        .message(ErrorCode.NO_DATA_FOUND)
+                        .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                        .errorType(Errors.ERROR_TYPE.USER.toValue())
+                        .level(Errors.SEVERITY.HIGH.name())
+                        .build());
+                baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return baseResponse;
+    }
+
     private boolean checkIfRoleExists(String roleName) {
         log.info("inside checkIfRoleExists");
         try {
@@ -230,5 +313,43 @@ public class ExecutiveServiceImpl implements ExecutiveService {
             log.error("Exception occurred {}", e.getMessage());
             throw new RuntimeException(e);
         }
+    }
+
+    private SendOtpResponse sendOtpResponseMethod(String mobileNumber) {
+        SendOtpResponse sendOtpResponse = null;
+        try {
+            if (mobileNumber != null) {
+                String otp = generateOTP(6);
+                sendOtpResponse = SendOtpResponse.builder()
+                        .isOtpSent(true)
+                        .mobileNumber(mobileNumber)
+                        .sentDate(new Date())
+                        .otp(otp)
+                        .message("Message sent successfully")
+                        .build();
+            } else {
+                sendOtpResponse = SendOtpResponse.builder()
+                        .isOtpSent(false)
+                        .mobileNumber(mobileNumber)
+                        .sentDate(new Date())
+                        .otp(null)
+                        .message("Message sent failed")
+                        .build();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return sendOtpResponse;
+    }
+
+    public static String generateOTP(int length) {
+        String numbers = "0123456789";
+        Random random = new Random();
+        StringBuilder otp = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(numbers.length());
+            otp.append(numbers.charAt(index));
+        }
+        return otp.toString();
     }
 }

@@ -3,6 +3,7 @@ package com.istato.admin.baseclasses;
 
 public class ErrorCode {
     public static final String NO_DATA_FOUND = "No data found against provided request.";
+    public static final String WRONG_OTP = "Wrong OTP entered, Try again ...!";
     public static final String NULL_REQUEST = "Null request from user";
     public static final String INVALID_MASTER_NAME = "Invalid master name entered";
     public static final String CSV_PARSING_ERROR = "Error occurred while parsing csv file";
@@ -19,6 +20,7 @@ public class ErrorCode {
     public static final String WRONG_PLAN_TYPE_OR_PROPERTY_TYPE = "Wrong plan type or property type";
     public static final String PLAN_ID_REQUIRED = "pLanId is required";
     public static final String PLAN_STATUS_REQUIRED = "pLanStatus is required";
+    public static final String USERNAME_DOSE_NOT_EXISTS = "Username you entered is wrong";
     ;;
 
 
