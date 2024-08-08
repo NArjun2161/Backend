@@ -18,7 +18,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/role")
+@CrossOrigin
 @Slf4j
 public class RoleController {
     @Autowired
@@ -43,7 +43,7 @@ public class RoleController {
     }
 
     @GetMapping(EndPointRefer.GET_ALL_ROLES + "/{isActive}")
-    public List<Role> getAllRolesByStatus(@PathVariable String isActive) {
+    public List<String> getAllRolesByStatus(@PathVariable String isActive) {
         log.info(EndPointRefer.GET_ALL_ROLES + Constants.CONTROLLER_STARTED);
         return roleService.getAllRolesByStatus(isActive);
     }

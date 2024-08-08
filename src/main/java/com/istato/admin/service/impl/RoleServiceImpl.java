@@ -82,8 +82,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> getAllRolesByStatus(String isActive) {
-        List<Role> roles = null;
+    public List<String> getAllRolesByStatus(String isActive) {
+        List<String> roles = null;
         log.info("Inside getAllRolesByStatus ");
         try {
             roles = roleRepository.getAllRolesByStatus(Boolean.parseBoolean(isActive));

@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -66,7 +67,7 @@ public class RoleRepositoryImpl implements RoleRepository {
             Query query = new Query();
             query.addCriteria(Criteria.where(Constants.ROLE_ID).is(role.getRoleId()));
             Update update = new Update();
-            update.set(String.valueOf(Constants.ACTIVE), role.getActive());
+            update.set(String.valueOf(Constants.IS_ACTIVE), role.getIsActive());
             update.set(String.valueOf(Constants.AUTHORIZED_ACTIONS), role.getAuthorizedActions());
 
             baseResponse = IstatoUtils.getBaseResponse(
@@ -92,18 +93,21 @@ public class RoleRepositoryImpl implements RoleRepository {
     }
 
     @Override
-    public List<Role> getAllRolesByStatus(Boolean isActive) {
+    public List<String> getAllRolesByStatus(Boolean isActive) {
         log.info("Inside getAllRolesByStatus repo");
-        List<Role> roles = null;
+        List<String> roleNames = new ArrayList<>();
         try {
             Query query = new Query();
             query.addCriteria(Criteria.where(Constants.IS_ACTIVE).is(isActive));
-            roles = mongoTemplate.find(query, Role.class);
+            List<Role> roles = mongoTemplate.find(query, Role.class);
+            for (int i=0; i < roles.size() ; i++){
+                roleNames.add(roles.get(i).getRoleName());
+            }
             log.info("Roles by status {}", roles);
         } catch (Exception e) {
             log.error("Exception occurred while getAllRolesByStatus {}", e.getMessage());
         }
-        return roles;
+        return roleNames;
     }
 
 }

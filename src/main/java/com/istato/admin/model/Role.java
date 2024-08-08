@@ -22,8 +22,8 @@ public class Role {
     @JsonProperty("sRoleDescription")
     private String roleDescription;
 
-    @JsonProperty("bActive")
-    private Boolean active;
+    @JsonProperty("bIsActive")
+    private Boolean isActive;
 
     @JsonProperty("lAuthorizedActions")
     private List<String> authorizedActions;
