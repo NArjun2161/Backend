@@ -16,4 +16,5 @@ public interface RoleRepository {
     List<Role> getAllRoles();
 
     List<String> getAllRolesByStatus(Boolean isActive);
+    Role getRoleById(String roleId);
 }

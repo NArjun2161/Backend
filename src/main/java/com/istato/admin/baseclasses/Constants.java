@@ -29,6 +29,7 @@ public class Constants {
     public static final String PLAN_ID = "planId";
     public static final String ROLE_ID = "roleId";
     public static final List<String> AUTHORIZED_ACTIONS = Collections.singletonList("authorizedActions");
+    public static final String EXECUTIVE_ID = "executiveId";
 
 
     private Constants() {

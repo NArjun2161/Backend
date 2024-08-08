@@ -13,4 +13,5 @@ public interface RoleService {
     List<Role> getAllRoles();
 
     List<String> getAllRolesByStatus(String isActive);
+    Role getRoleById(String roleId);
 }

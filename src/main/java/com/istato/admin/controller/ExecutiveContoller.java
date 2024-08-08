@@ -2,6 +2,7 @@ package com.istato.admin.controller;
 
 import com.istato.admin.baseclasses.*;
 import com.istato.admin.model.Executive;
+import com.istato.admin.model.VerifyOtpRequest;
 import com.istato.admin.service.ExecutiveService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,19 @@ public class ExecutiveContoller {
         return executiveService.executiveLogin(executive);
     }
 
+    @PostMapping(value = EndPointRefer.EXECUTIVE_RESET_PASSWORD)
+    public BaseResponse executiveResetPassword(@RequestBody Executive executive) throws Exception {
+        log.info(EndPointRefer.EXECUTIVE_RESET_PASSWORD + Constants.CONTROLLER_STARTED);
+        return executiveService.executiveResetPassword(executive);
+    }
+
+    @PostMapping(value = EndPointRefer.VERIFY_OTP)
+    public BaseResponse verifyOtp(@RequestBody VerifyOtpRequest verifyOtpRequest) throws Exception {
+        log.info(EndPointRefer.VERIFY_OTP + Constants.CONTROLLER_STARTED);
+        return executiveService.verifyOtp(verifyOtpRequest);
+    }
+
+
     @GetMapping(EndPointRefer.GET_ALL_EXECUTIVES_CONTROLLER)
     public List<BaseResponse> getAllExecutives() {
         log.info(EndPointRefer.GET_ALL_EXECUTIVES_CONTROLLER + Constants.CONTROLLER_STARTED);
@@ -45,4 +59,9 @@ public class ExecutiveContoller {
         return executiveService.updateExeutive(updatedExecutive);
     }
 
+    @GetMapping(EndPointRefer.GET_EXECUTIVE_BY_ID + "/{executiveId}")
+    public Executive getExecutiveById(@PathVariable String executiveId){
+        log.info(EndPointRefer.GET_EXECUTIVE_BY_ID + Constants.CONTROLLER_STARTED);
+        return executiveService.getExecutiveById(executiveId);
+    }
 }
