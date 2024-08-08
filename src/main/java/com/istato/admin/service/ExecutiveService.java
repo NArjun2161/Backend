@@ -21,4 +21,6 @@ public interface ExecutiveService {
     BaseResponse executiveResetPassword(Executive executive);
 
     BaseResponse verifyOtp(VerifyOtpRequest verifyOtpRequest);
+
+    Executive getExecutiveById(String executiveId);
 }

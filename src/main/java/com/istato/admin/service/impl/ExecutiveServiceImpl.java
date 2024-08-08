@@ -305,6 +305,23 @@ public class ExecutiveServiceImpl implements ExecutiveService {
         return baseResponse;
     }
 
+    @Override
+    public Executive getExecutiveById(String executiveId) {
+        Executive executive = null;
+        try{
+            if (executiveId != null){
+                executive = executiveRepository.getExecutiveById(executiveId);
+            }else {
+                log.error("ExecutiveId is null");
+            }
+
+        } catch (Exception e) {
+            log.error("Exception occurred while calling getExecutiveById with probable cause {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return executive;
+    }
+
     private boolean checkIfRoleExists(String roleName) {
         log.info("inside checkIfRoleExists");
         try {

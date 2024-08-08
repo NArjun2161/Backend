@@ -59,4 +59,9 @@ public class ExecutiveContoller {
         return executiveService.updateExeutive(updatedExecutive);
     }
 
+    @GetMapping(EndPointRefer.GET_EXECUTIVE_BY_ID + "/{executiveId}")
+    public Executive getExecutiveById(@PathVariable String executiveId){
+        log.info(EndPointRefer.GET_EXECUTIVE_BY_ID + Constants.CONTROLLER_STARTED);
+        return executiveService.getExecutiveById(executiveId);
+    }
 }

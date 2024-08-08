@@ -33,6 +33,8 @@ public class EndPointRefer {
     public static final String UPLOAD_GENERIC_MASTER = "upload-generic-master";
     public static final String EXECUTIVE_RESET_PASSWORD = "executive-reset-password";
     public static final String VERIFY_OTP = "verify-otp";
+    public static final String GET_ROLL_BY_ID = "get-role-by-id";
+    public static final String GET_EXECUTIVE_BY_ID = "get-executive-by-id";
 
     private EndPointRefer() {
 

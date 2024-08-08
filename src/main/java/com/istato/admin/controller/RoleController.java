@@ -47,4 +47,11 @@ public class RoleController {
         log.info(EndPointRefer.GET_ALL_ROLES + Constants.CONTROLLER_STARTED);
         return roleService.getAllRolesByStatus(isActive);
     }
+
+    @GetMapping(EndPointRefer.GET_ROLL_BY_ID+ "/{roleId}")
+    public Role getRoleById(@PathVariable String roleId){
+        log.info(EndPointRefer.GET_ROLL_BY_ID + Constants.CONTROLLER_STARTED);
+        return roleService.getRoleById(roleId);
+    }
+
 }
