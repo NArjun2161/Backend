@@ -5,6 +5,7 @@ import com.istato.admin.model.Executive;
 import com.istato.admin.model.VerifyOtpRequest;
 import com.istato.admin.service.ExecutiveService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.bcel.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,4 +60,9 @@ public class ExecutiveContoller {
         return executiveService.updateExeutive(updatedExecutive);
     }
 
+    @GetMapping(EndPointRefer.GET_EXECUTIVE_BY_ID + "/{executiveId}")
+    public Executive getExecutiveById(@PathVariable String executiveId){
+        log.info(EndPointRefer.GET_EXECUTIVE_BY_ID + Constants.CONTROLLER_STARTED);
+        return executiveService.getExecutiveById(executiveId);
+    }
 }

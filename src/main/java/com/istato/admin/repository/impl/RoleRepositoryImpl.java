@@ -106,4 +106,18 @@ public class RoleRepositoryImpl implements RoleRepository {
         return roles;
     }
 
+    @Override
+    public Role getRoleById(String roleId) {
+        Role role = null;
+        try{
+            Query query = new Query();
+            query.addCriteria(Criteria.where(Constants.ROLE_ID).is(roleId));
+            role = mongoTemplate.findOne(query, Role.class);
+        } catch (Exception e) {
+            log.error("Exception occurred while getting role from database with probable cause {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return role;
+    }
+
 }

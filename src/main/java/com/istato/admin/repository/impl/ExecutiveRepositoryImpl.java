@@ -187,4 +187,18 @@ public class ExecutiveRepositoryImpl implements ExecutiveRepository {
         return sendOtpResponse;
     }
 
+    @Override
+    public Executive getExecutiveById(String executiveId) {
+        Executive executive = null;
+        try{
+            Query query = new Query();
+            query.addCriteria(Criteria.where(Constants.EXECUTIVE_ID).is(executiveId));
+            executive = mongoTemplate.findOne(query, Executive.class);
+        } catch (Exception e) {
+            logger.error("Exception occurred while fetching dataBase with probable cause {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return executive;
+    }
+
 }

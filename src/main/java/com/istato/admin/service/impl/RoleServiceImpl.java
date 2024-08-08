@@ -92,4 +92,20 @@ public class RoleServiceImpl implements RoleService {
         }
         return roles;
     }
+
+    @Override
+    public Role getRoleById(String roleId) {
+        Role role = null;
+        try {
+            if (roleId != null) {
+                role = roleRepository.getRoleById(roleId);
+            } else {
+                log.error("RoleId null in request");
+            }
+        } catch (Exception e) {
+            log.error("Exception occurred while getting role by id {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return role;
+    }
 }

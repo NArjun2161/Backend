@@ -24,4 +24,6 @@ public interface ExecutiveRepository {
     void saveOtpLogs(SendOtpResponse sendOtpResponse);
 
     SendOtpResponse getSmsResponse(String mobileNumber);
+
+    Executive getExecutiveById(String executiveId);
 }
