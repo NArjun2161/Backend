@@ -67,8 +67,9 @@ public class RoleRepositoryImpl implements RoleRepository {
             Query query = new Query();
             query.addCriteria(Criteria.where(Constants.ROLE_ID).is(role.getRoleId()));
             Update update = new Update();
-            update.set(String.valueOf(Constants.IS_ACTIVE), role.getIsActive());
-            update.set(String.valueOf(Constants.AUTHORIZED_ACTIONS), role.getAuthorizedActions());
+            update.set(Constants.ROLE_NAME, role.getRoleName());
+            update.set(Constants.ROLE_DESCRIPTION, role.getRoleDescription());
+            update.set(Constants.IS_ACTIVE, role.getIsActive());
 
             baseResponse = IstatoUtils.getBaseResponse(
                     HttpStatus.OK,
