@@ -38,16 +38,14 @@ public class IstatoUtils {
         return prefix.toString() + randomNumbericPart;
 
     }
-    public static String generatePlanId(String planType,String propertyType, String boundValue) {
+    public static String generatePlanId(String planType,String propertyType, int boundValue) {
         log.info("Inside generateProductId");
         Random random = new Random();
-        int rValue = random.nextInt(Integer.parseInt(boundValue));
-        // Logic to generate a unique ID based on the name and some random numeric value
+        int rValue = random.nextInt((int) Math.pow(10, boundValue));
         String firstPrefix = planType.substring(0, Math.min(planType.length(), 2)).toUpperCase();
         String secPrefix = propertyType.substring(0, Math.min(propertyType.length(), 2)).toUpperCase();
-        String randomNumericPart = String.format("%02d", rValue);
 
-        return firstPrefix + secPrefix +FieldSeprators.HYPEN.toFaceValue()+ randomNumericPart;
+        return firstPrefix + secPrefix +FieldSeprators.HYPEN.toFaceValue()+ rValue;
     }
 
     public static BaseResponse getBaseResponse(CustomHttpStatus httpStatus, Collection<Errors> errors) {

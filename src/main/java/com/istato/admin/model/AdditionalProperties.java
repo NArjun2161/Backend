@@ -15,7 +15,4 @@ public class AdditionalProperties {
     @JsonProperty("iRandomNumberBound")
     private int randomNumberBound;
 
-
-
-
 }
