@@ -70,8 +70,6 @@ public class ExecutiveServiceImpl implements ExecutiveService {
                 executive.setPassword(IstatoUtils.encryptString(executive.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                 executive.getPersonalDetails().setPanNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getPanNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                 executive.getPersonalDetails().setAadharNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getAadharNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-                executive.getPersonalDetails().setContactNumber(IstatoUtils.encryptString(executive.getPersonalDetails().getContactNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-                executiveApplication.setExecutive(executive);
                 executiveApplicationService.saveExecutiveApplication(executiveApplication);
                 baseResponse = executiveRepository.save(executive);
             } else {
@@ -139,10 +137,6 @@ public class ExecutiveServiceImpl implements ExecutiveService {
         try {
             if (updatedExecutive != null && updatedExecutive.getExecutiveId() != null) {
                 updatedExecutive.setUserName(IstatoUtils.encryptString(updatedExecutive.getUserName(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-                updatedExecutive.setPassword(IstatoUtils.encryptString(updatedExecutive.getPassword(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-                updatedExecutive.getPersonalDetails().setPanNumber(IstatoUtils.encryptString(updatedExecutive.getPersonalDetails().getPanNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-                updatedExecutive.getPersonalDetails().setAadharNumber(IstatoUtils.encryptString(updatedExecutive.getPersonalDetails().getAadharNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
-                updatedExecutive.getPersonalDetails().setContactNumber(IstatoUtils.encryptString(updatedExecutive.getPersonalDetails().getContactNumber(), apiConfig.getEncryptionKey(), apiConfig.getIvKey()));
                 // Save the updated executive back to the database
                 baseResponse = executiveRepository.updateExecutive(updatedExecutive);
             } else {

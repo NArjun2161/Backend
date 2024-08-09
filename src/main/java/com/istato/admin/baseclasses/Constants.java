@@ -31,6 +31,10 @@ public class Constants {
     public static final List<String> AUTHORIZED_ACTIONS = Collections.singletonList("authorizedActions");
     public static final String EXECUTIVE_ID = "executiveId";
     public static final String ROLE_DESCRIPTION = "roleDescription";
+    public static final String EXECUTIVE_CONTACT_NUMBER = "personalDetails.contactNumber";
+    public static final String EXECUTIVE_ADDRESS = "personalDetails.address";
+    public static final String BASE64_IMAGE = "base64Image";
+    public static final String EXECUTIVE_SALARY = "financeDetails.salary";
 
 
     private Constants() {

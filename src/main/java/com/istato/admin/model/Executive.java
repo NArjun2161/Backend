@@ -18,6 +18,9 @@ public class Executive {
     @JsonProperty("sExecutiveId")
     private String executiveId;
 
+    @JsonProperty("sBase64Image")
+    private String base64Image;
+
     @JsonProperty("sRole")
     private String role;
 

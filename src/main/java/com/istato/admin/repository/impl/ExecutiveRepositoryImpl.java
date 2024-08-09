@@ -7,7 +7,6 @@ import com.istato.admin.model.Executive;
 import com.istato.admin.model.SendOtpResponse;
 import com.istato.admin.repository.ExecutiveRepository;
 import com.istato.admin.utils.IstatoUtils;
-import org.apache.catalina.util.ErrorPageSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,9 +112,12 @@ public class ExecutiveRepositoryImpl implements ExecutiveRepository {
         try {
             Query query = new Query();
             Update update = new Update();
-            query = query.addCriteria(Criteria.where("executiveId").is(updatedExecutive.getExecutiveId()));
-            update.set("personalDetails", updatedExecutive.getPersonalDetails());
-
+            query = query.addCriteria(Criteria.where(Constants.EXECUTIVE_ID).is(updatedExecutive.getExecutiveId()));
+            update.set(Constants.EXECUTIVE_CONTACT_NUMBER,updatedExecutive.getPersonalDetails().getContactNumber());
+            update.set(Constants.EXECUTIVE_ADDRESS, updatedExecutive.getPersonalDetails().getAddress());
+            update.set(Constants.BASE64_IMAGE, updatedExecutive.getBase64Image());
+            update.set(Constants.EXECUTIVE_SALARY, updatedExecutive.getFinanceDetails().getSalary());
+            update.set(Constants.IS_ACTIVE, updatedExecutive.isActive());
             baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, mongoTemplate.upsert(query, update, Executive.class));
         } catch (Exception e) {
             logger.error("An error occurred during upsert: {}", e.getMessage(), e);
