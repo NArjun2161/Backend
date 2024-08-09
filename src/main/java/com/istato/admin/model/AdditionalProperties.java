@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class AdditionalProperties {
 
-    @JsonProperty("sRandomNumberBound")
-    private String randomNumberBound;
+    @JsonProperty("iRandomNumberBound")
+    private int randomNumberBound;
 
 
 

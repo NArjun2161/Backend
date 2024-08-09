@@ -113,7 +113,12 @@ public class IstatoUtils {
         }
     }
 
-    public static BaseResponse getBaseResponse(HttpStatus httpStatus, List<Executive> executives, String s) {
-        return null;
+    public static String generateProjectId(String projectName, int boundValue) {
+        log.info("Inside generateProductId");
+        Random random = new Random();
+        int rValue = random.nextInt((int) Math.pow(10, boundValue));
+        String Prefix = projectName.substring(0, Math.min(projectName.length(), 4)).toUpperCase();
+        return Prefix +FieldSeprators.HYPEN.toFaceValue()+ rValue;
+
     }
 }
