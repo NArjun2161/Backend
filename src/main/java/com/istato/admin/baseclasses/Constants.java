@@ -6,12 +6,10 @@ import java.util.List;
 
 public class Constants {
 
-    public static final String ADMIN_SERVICE_UP_AND_RUNNING = "Istato admin service is up and running";
     public static final String ALGORITHM = "AES";
     public static final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
     public static final String CONTROLLER_STARTED = " controller started";
     public static final String API_NAME = "apiName";
-    public static final String CAHNGE_PASSWORD = "changePassword";
     public static final String NULL_REQUEST = "Null requestnull";
     public static final String ENCRYPTION_KEY = "encryptionKey";
     public static final String IV_KEY = "ivKey";
@@ -28,7 +26,6 @@ public class Constants {
     public static final String FLAT = "Flat";
     public static final String PLAN_ID = "planId";
     public static final String ROLE_ID = "roleId";
-    public static final List<String> AUTHORIZED_ACTIONS = Collections.singletonList("authorizedActions");
     public static final String EXECUTIVE_ID = "executiveId";
     public static final String ROLE_DESCRIPTION = "roleDescription";
     public static final String EXECUTIVE_CONTACT_NUMBER = "personalDetails.contactNumber";

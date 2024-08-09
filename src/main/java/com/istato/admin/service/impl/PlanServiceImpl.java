@@ -29,14 +29,13 @@ public class PlanServiceImpl implements PlanService {
     public BaseResponse createPlan(PlanDetails planDetails) {
         BaseResponse baseResponse = null;
         String planId = FieldSeprators.BLANK.toFaceValue();
-        String boundValue = FieldSeprators.BLANK.toFaceValue();
         try {
             if (planDetails != null) {
                 log.info("Inside createPlan {}", planDetails);
                 if ((planDetails.getPlanType().equalsIgnoreCase(Constants.RENTAL) || planDetails.getPlanType().equalsIgnoreCase(Constants.SALE)) &&
                         (planDetails.getPropertyType().equalsIgnoreCase(Constants.LAND) || planDetails.getPropertyType().equalsIgnoreCase(Constants.FLAT))) {
                     ApiConfig apiConfig = apiConfigRepo.getApiConfig(EndPointRefer.CREATE_PLAN);
-                    boundValue = apiConfig.getAdditionalProperties().getRandomNumberBound();
+                   int boundValue = apiConfig.getAdditionalProperties().getRandomNumberBound();
                     log.info("ApiConfig {}", apiConfig);
                     planId = IstatoUtils.generatePlanId(planDetails.getPlanType(), planDetails.getPropertyType(), boundValue);
                     planDetails.setPlanId(planId);
