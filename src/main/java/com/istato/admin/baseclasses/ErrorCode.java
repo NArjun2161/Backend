@@ -25,6 +25,8 @@ public class ErrorCode {
 
 
     public static final String NULL_ROLE_ID = "Role ID should not be null, please check!";
+    public static final String PROJECT_NOT_AVAILABLE = "Project you are willing to add inventory against is already sold or booked fully";
+    public static final String PROJECT_DOSENT_EXIST = "Project you are trying to add inventory dose not exists";
 
     private ErrorCode() {
 

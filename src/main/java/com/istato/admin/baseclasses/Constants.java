@@ -32,6 +32,8 @@ public class Constants {
     public static final String EXECUTIVE_ADDRESS = "personalDetails.address";
     public static final String BASE64_IMAGE = "base64Image";
     public static final String EXECUTIVE_SALARY = "financeDetails.salary";
+    public static final String PROJECT_ID = "projectId";
+    public static final String AVAILABLE = "AVAILABLE";
 
 
     private Constants() {
