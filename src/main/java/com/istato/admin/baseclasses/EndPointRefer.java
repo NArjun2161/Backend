@@ -36,6 +36,9 @@ public class EndPointRefer {
     public static final String GET_ROLL_BY_ID = "get-role-by-id";
     public static final String GET_EXECUTIVE_BY_ID = "get-executive-by-id";
     public static final String ONBOARD_NEW_PROJECT = "create-new-project";
+    public static final String ADD_INVENTORY = "add-inventory";
+    public static final String GET_PROJECT_BY_ID = "get-project-byId";
+    public static final String UPDATE_PROJECT = "update-project";
 
     private EndPointRefer() {
 
