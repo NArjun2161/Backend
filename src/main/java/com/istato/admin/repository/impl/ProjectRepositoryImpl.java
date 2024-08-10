@@ -75,4 +75,35 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         }
         return baseResponse;
     }
+
+    @Override
+    public Inventory getInventoryByGetPlotNoAndProjectId(String projectId, String plotNo) {
+        Inventory inventory = null;
+        try {
+            Query query = new Query();
+            query.addCriteria(Criteria.where("projectId").is(projectId).and("plotNo").is(plotNo));
+            inventory = mongoTemplate.findOne(query, Inventory.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return inventory;
+    }
+
+    @Override
+    public BaseResponse updateInventory(Inventory inventory) {
+        BaseResponse baseResponse = null;
+        try {
+            Query query = new Query();
+            Update update = new Update();
+            query.addCriteria(Criteria.where("projectId").is(inventory.getProjectId()).and("plotNo").is(inventory.getPlotNo()));
+            update.set("cost", inventory.getCost());
+            update.set("plotSize", inventory.getCost());
+            update.set("plotStatus", inventory.getPlotStatus());
+            baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, mongoTemplate.updateFirst(query, update, Inventory.class));
+        } catch (Exception e) {
+            log.error("Exception occurred while updating inventory with probable cause {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return baseResponse;
+    }
 }
