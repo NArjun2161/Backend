@@ -11,7 +11,6 @@ public class EndPointRefer {
     public static final String EXPENSE_API = "/api/expenses";
     public static final String GET_ALL_API_CONFIG_BY_ACTIVE = "get-all-api-config-by-active";
     public static final String GET_API_CONFIG_BY_NAME = "get-api-config-by-name";
-    public static final String GETALL_API_CONFIG = "getall-api-config";
     public static final String CREATE_EXECUTIVE_CONTROLLER = "save-api-executive";
     public static final String EXECUTIVE_LOGIN = "executive-login";
     public static final String SAVE_EXECUTIVE_CONTROLLER = "save-executive-application";
@@ -39,6 +38,7 @@ public class EndPointRefer {
     public static final String ADD_INVENTORY = "add-inventory";
     public static final String GET_PROJECT_BY_ID = "get-project-byId";
     public static final String UPDATE_PROJECT = "update-project";
+    public static final String UPDATE_INVENTORY = "update-inventory";
 
     private EndPointRefer() {
 

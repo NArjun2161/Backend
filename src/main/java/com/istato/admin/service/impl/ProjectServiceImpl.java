@@ -71,13 +71,26 @@ public class ProjectServiceImpl implements ProjectService {
                 log.info("Project Id: {}", inventory.getProjectId());
                 Project project = projectRepository.getProjectById(inventory.getProjectId());
                 if (project != null) {
-                    if (project.getProjectStatus().equalsIgnoreCase(Constants.AVAILABLE)) {
-                        baseResponse = projectRepository.addInventory(inventory);
+                    Inventory inventoryFromDb = projectRepository.getInventoryByGetPlotNoAndProjectId(inventory.getProjectId(), inventory.getPlotNo());
+                    if (inventoryFromDb == null) {
+                        if (project.getProjectStatus().equalsIgnoreCase(Constants.AVAILABLE)) {
+                            baseResponse = projectRepository.addInventory(inventory);
+                        } else {
+                            log.error(ErrorCode.PROJECT_NOT_AVAILABLE);
+                            Collection<Errors> errors = new ArrayList<>();
+                            errors.add(Errors.builder()
+                                    .message(ErrorCode.PROJECT_NOT_AVAILABLE)
+                                    .errorCode(String.valueOf(Errors.ERROR_TYPE.DATABASE.toCode()))
+                                    .errorType(Errors.ERROR_TYPE.DATABASE.toValue())
+                                    .level(Errors.SEVERITY.HIGH.name())
+                                    .build());
+                            baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+                        }
                     } else {
-                        log.error(ErrorCode.PROJECT_NOT_AVAILABLE);
+                        log.error(ErrorCode.PLOT_ALREADY_EXISTS);
                         Collection<Errors> errors = new ArrayList<>();
                         errors.add(Errors.builder()
-                                .message(ErrorCode.PROJECT_NOT_AVAILABLE)
+                                .message(ErrorCode.PLOT_ALREADY_EXISTS)
                                 .errorCode(String.valueOf(Errors.ERROR_TYPE.DATABASE.toCode()))
                                 .errorType(Errors.ERROR_TYPE.DATABASE.toValue())
                                 .level(Errors.SEVERITY.HIGH.name())
@@ -114,41 +127,21 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public BaseResponse getProjectById(String projectId) {
+    public Project getProjectById(String projectId) {
         log.info("Inside ProjectServiceImpl.getProjectById()");
-        BaseResponse baseResponse = null;
+        Project project = null;
         try {
             if (!projectId.isEmpty()) {
-                Project project = projectRepository.getProjectById(projectId);
+                project = projectRepository.getProjectById(projectId);
                 if (project != null) {
-                    baseResponse = IstatoUtils.getBaseResponse(HttpStatus.OK, project);
-                } else {
-                    log.error(ErrorCode.PROJECT_DOSENT_EXIST);
-                    Collection<Errors> errors = new ArrayList<>();
-                    errors.add(Errors.builder()
-                            .message(ErrorCode.PROJECT_DOSENT_EXIST)
-                            .errorCode(String.valueOf(Errors.ERROR_TYPE.DATABASE.toCode()))
-                            .errorType(Errors.ERROR_TYPE.DATABASE.toValue())
-                            .level(Errors.SEVERITY.HIGH.name())
-                            .build());
-                    baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+                    return project;
                 }
-            } else {
-                log.error(ErrorCode.NO_DATA_FOUND);
-                Collection<Errors> errors = new ArrayList<>();
-                errors.add(Errors.builder()
-                        .message(ErrorCode.NO_DATA_FOUND)
-                        .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
-                        .errorType(Errors.ERROR_TYPE.USER.toValue())
-                        .level(Errors.SEVERITY.HIGH.name())
-                        .build());
-                baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
             }
         } catch (Exception e) {
             log.error("Exception occurred while fetching project by ID with probable cause {}", e.getMessage());
             throw new RuntimeException(e);
         }
-        return baseResponse;
+        return project;
     }
 
     @Override
@@ -197,6 +190,41 @@ public class ProjectServiceImpl implements ProjectService {
             }
         } catch (Exception e) {
             log.error("Exception occurred while updating project with probable cause {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return baseResponse;
+    }
+
+    @Override
+    public BaseResponse updateInventory(Inventory inventory) {
+        BaseResponse baseResponse = null;
+        log.info("Inside ProjectServiceImpl.updateInventory()");
+        try {
+            if (inventory.getPlotNo() != null && inventory.getProjectId() != null) {
+                Inventory inventoryFromDb = projectRepository.getInventoryByGetPlotNoAndProjectId(inventory.getProjectId(), inventory.getPlotNo());
+                if (inventory.getCost() == null) {
+                    inventory.setCost(inventoryFromDb.getCost());
+                }
+                if (inventory.getPlotSize() == null) {
+                    inventory.setPlotSize(inventoryFromDb.getPlotSize());
+                }
+                if (inventory.getPlotStatus() == null) {
+                    inventory.setPlotStatus(inventoryFromDb.getPlotStatus());
+                }
+                baseResponse = projectRepository.updateInventory(inventory);
+            } else {
+                log.error(ErrorCode.NULL_REQUEST);
+                Collection<Errors> errors = new ArrayList<>();
+                errors.add(Errors.builder()
+                        .message(ErrorCode.NULL_REQUEST)
+                        .errorCode(String.valueOf(Errors.ERROR_TYPE.USER.toCode()))
+                        .errorType(Errors.ERROR_TYPE.USER.toValue())
+                        .level(Errors.SEVERITY.HIGH.name())
+                        .build());
+                baseResponse = IstatoUtils.getBaseResponse(CustomHttpStatus.FAILURE, errors);
+            }
+        } catch (Exception e) {
+            log.error("Exception occurred while updating inventory with probable cause {}", e.getMessage());
             throw new RuntimeException(e);
         }
         return baseResponse;

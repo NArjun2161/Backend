@@ -24,13 +24,13 @@ public class ProjectController {
     }
 
     @GetMapping(EndPointRefer.GET_PROJECT_BY_ID + "/{projectId}")
-    public BaseResponse getProjectById(@RequestParam String projectId) {
+    public Project getProjectById(@RequestParam String projectId) {
         log.info(EndPointRefer.GET_PROJECT_BY_ID + Constants.CONTROLLER_STARTED);
         return projectService.getProjectById(projectId);
     }
 
     @PutMapping(EndPointRefer.UPDATE_PROJECT)
-    public BaseResponse updateProject(@RequestBody Project project){
+    public BaseResponse updateProject(@RequestBody Project project) {
         log.info(EndPointRefer.UPDATE_PROJECT + Constants.CONTROLLER_STARTED);
         return projectService.updateProject(project);
     }
@@ -39,5 +39,11 @@ public class ProjectController {
     public BaseResponse saveProject(@RequestBody Inventory inventory) {
         log.info(EndPointRefer.ADD_INVENTORY + Constants.CONTROLLER_STARTED);
         return projectService.addInventory(inventory);
+    }
+
+    @PutMapping(EndPointRefer.UPDATE_INVENTORY)
+    public BaseResponse updateInventory(@RequestBody Inventory inventory) {
+        log.info(EndPointRefer.UPDATE_INVENTORY + Constants.CONTROLLER_STARTED);
+        return projectService.updateInventory(inventory);
     }
 }

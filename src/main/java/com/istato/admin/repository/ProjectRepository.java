@@ -13,4 +13,8 @@ public interface ProjectRepository {
     BaseResponse addInventory(Inventory inventory);
 
     BaseResponse updateProject(Project project);
+
+    Inventory getInventoryByGetPlotNoAndProjectId(String projectId, String plotNo);
+
+    BaseResponse updateInventory(Inventory inventory);
 }

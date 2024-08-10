@@ -10,7 +10,9 @@ public interface ProjectService {
 
     BaseResponse addInventory(Inventory inventory);
 
-    BaseResponse getProjectById(String projectId);
+    Project getProjectById(String projectId);
 
     BaseResponse updateProject(Project project);
+
+    BaseResponse updateInventory(Inventory inventory);
 }
